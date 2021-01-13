@@ -28,6 +28,5 @@
     <script src="https://kit.fontawesome.com/b4972b1dcb.js" crossorigin="anonymous"></script>
 
     <script type="text/javascript" src="{{ URL::asset('js/main.js')}}"></script>
-    {{-- custom js file  --}}
 </body>
 </html>
