@@ -18,7 +18,7 @@ class CreateRelationshipTable extends Migration
             $table->string('name');
             $table->date('birthday');
             $table->longText('notes');
-            $table->string('images');
+            // $table->string('images');
             $table->timestamps();
         });
         Schema::create('producers', function (Blueprint $table) {
@@ -47,7 +47,7 @@ class CreateRelationshipTable extends Migration
             $table->foreign('genre_id')->references('genre_id')->on('genres')->onDelete('cascade')->onUpdate('cascade');
             $table->bigInteger('producer_id')->unsigned();
             $table->foreign('producer_id')->references('producer_id')->on('producers')->onDelete('cascade')->onUpdate('cascade');
-            $table->string('images');
+            // $table->string('images');
             $table->timestamps();
         });
         Schema::create('actor_movie_roles', function (Blueprint $table) {
