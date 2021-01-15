@@ -211,9 +211,9 @@ const modals = {
                                 <input type="text" class="form-control" id="year">
                             </div>
                             
-                            <div class="form-group">
-                                <label for="plot">Plot</label>
-                                <input type="text" class="form-control" id="plot">
+                            <div class="form-outline">
+                                <label class="form-label" for="plot">Plot</label>
+                                <textarea class="form-control" id="plot" rows="4"></textarea>
                             </div>
 
                             <br>
@@ -245,9 +245,9 @@ const modals = {
                                 <input type="text" class="form-control" id="birthday">
                             </div>
                             
-                            <div class="form-group">
-                                <label for="notes">Notes</label>
-                                <input type="text" class="form-control" id="notes">
+                            <div class="form-outline">
+                                <label class="form-label" for="notes">Notes</label>
+                                <textarea class="form-control" id="notes" rows="4"></textarea>
                             </div>
 
                             <br>
@@ -279,9 +279,9 @@ const modals = {
                                 <input type="text" class="form-control" id="birthday">
                             </div>
                             
-                            <div class="form-group">
-                                <label for="notes">Notes</label>
-                                <input type="text" class="form-control" id="notes">
+                            <div class="form-outline">
+                                <label class="form-label" for="notes">Notes</label>
+                                <textarea class="form-control" id="notes" rows="4"></textarea>
                             </div>
 
                             <br>
