@@ -42,7 +42,8 @@ class ActorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $actor = Actor::create($request->all());
+        return response()->json($actor);
     }
 
     /**
@@ -64,7 +65,8 @@ class ActorController extends Controller
      */
     public function edit(Actor $actor)
     {
-        //
+        $actor = Actor::find($id);
+        return response()->json($actor);
     }
 
     /**

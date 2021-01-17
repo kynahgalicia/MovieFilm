@@ -25,16 +25,16 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 /**Route for login API */
-Route::post('login', 'ApiController@login');
+// Route::post('login', 'ApiController@login');
 
-/**Route for register API */
-Route::post('register', 'ApiController@register');
+// /**Route for register API */
+// Route::post('register', 'ApiController@register');
 
-/**Route for details user API */
-Route::middleware('auth:api')->group(function(){
+// /**Route for details user API */
+// Route::middleware('auth:api')->group(function(){
 
-Route::post('details', 'ApiController@user_info');
-});
+// Route::post('details', 'ApiController@user_info');
+// });
 
 Route::resource('Movie', MovieController::class);
 Route::resource('Actor', ActorController::class);

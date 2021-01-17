@@ -42,7 +42,8 @@ class ProducerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $producer = Producer::create($request->all());
+        return response()->json($producer);
     }
 
     /**

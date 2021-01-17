@@ -42,7 +42,8 @@ class GenreController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $genre = Genre::create($request->all());
+        return response()->json($genre);
     }
 
     /**
