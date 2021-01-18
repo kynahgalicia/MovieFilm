@@ -14,14 +14,17 @@ class GenreController extends Controller
      */
     public function index()
     {
-        $genre = Genre::orderBy('genre_id','ASC')->paginate(10);
-        return View::make('genre.index',compact('genre'));
+        $genres = Genre::orderBy('genre_id')->get();
+        return response()->json($genres);
     }
 
-    public function getAllGenre(Request $request)
-    {
-        $genre = Genre::orderBy('created_at')->get();
-        return response()->json($genre);
+    public function getAllGenre(Request $request){
+        if ($request->ajax()){
+            $genre = Genre::orderBy('genre_id')->get();
+            return response()->json($genre);
+        }
+
+        return view('index');
     }
 
     /**

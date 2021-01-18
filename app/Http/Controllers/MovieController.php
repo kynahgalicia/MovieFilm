@@ -14,14 +14,17 @@ class MovieController extends Controller
      */
     public function index()
     {
-        //
+        $movie = Movie::orderBy('movie_id')->get();
+        return response()->json($movie);
     }
 
     public function getAllMovie(Request $request)
     {
-        return Movie::all();
-        // $movie = Movie::orderBy('created_at')->get();
-        // return response()->json($movie);
+        if ($request->ajax()){
+            $movie = Movie::orderBy('movie_id')->get();
+            return response()->json($movie);
+        }
+        return view('index');
     }
     /**
      * Show the form for creating a new resource.

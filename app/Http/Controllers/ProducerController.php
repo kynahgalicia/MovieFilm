@@ -14,14 +14,18 @@ class ProducerController extends Controller
      */
     public function index()
     {
-        $producer = Producer::orderBy('producer_id','ASC')->paginate(10);
-        return View::make('producer.index',compact('producer'));
+        $producer = Producer::orderBy('producer_id')->get();
+        return response()->json($producer);
     }
 
     public function getAllProducer(Request $request)
     {
-        $producer = Producer::orderBy('created_at')->get();
-        return response()->json($producer);
+        if ($request->ajax()){
+            $producer = Producer::orderBy('producer_id')->get();
+            return response()->json($producer);
+        }
+
+        return view('index');
     }
 
     /**
