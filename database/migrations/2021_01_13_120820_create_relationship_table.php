@@ -14,7 +14,7 @@ class CreateRelationshipTable extends Migration
     public function up()
     {
         Schema::create('actors', function (Blueprint $table) {
-            $table->id('actor_id');
+            $table->id('id');
             $table->string('name');
             $table->date('birthday');
             $table->longText('notes');
@@ -22,19 +22,19 @@ class CreateRelationshipTable extends Migration
             $table->timestamps();
         });
         Schema::create('producers', function (Blueprint $table) {
-            $table->id('producer_id');
+            $table->id('id');
             $table->string('name');
             $table->date('birthday');
             $table->longText('notes');
             $table->timestamps();
         });
         Schema::create('genres', function (Blueprint $table) {
-            $table->id('genre_id');
+            $table->id('id');
             $table->string('genre');
             $table->timestamps();
         });
         Schema::create('roles', function (Blueprint $table) {
-            $table->id('role_id');
+            $table->id('id');
             $table->string('roles');
             $table->timestamps();
         });

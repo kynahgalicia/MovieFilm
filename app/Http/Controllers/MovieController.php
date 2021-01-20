@@ -65,9 +65,10 @@ class MovieController extends Controller
      * @param  \App\Models\Movie  $movie
      * @return \Illuminate\Http\Response
      */
-    public function edit(Movie $movie)
+    public function edit(Movie $movie, $id)
     {
-        //
+        $movie = Movie::find($id);
+        return response()->json($movie);
     }
 
     /**
@@ -77,9 +78,11 @@ class MovieController extends Controller
      * @param  \App\Models\Movie  $movie
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Movie $movie)
+    public function update(Request $request, Movie $movie, $id)
     {
-        //
+        $movie = Movie::find($id);
+        $movie = $movie->update($request->all());
+        return response()->json($movie);
     }
 
     /**

@@ -63,7 +63,7 @@ class ActorController extends Controller
      * @param  \App\Models\Actor  $actor
      * @return \Illuminate\Http\Response
      */
-    public function edit(Actor $actor)
+    public function edit(Actor $actor, $id)
     {
         $actor = Actor::find($id);
         return response()->json($actor);
@@ -76,14 +76,16 @@ class ActorController extends Controller
      * @param  \App\Models\Actor  $actor
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Actor $actor)
+    public function update(Request $request, $id)
     {
-        //
+        $actor = Actor::find($id);
+        $actor = $actor->update($request->all());
+        return response()->json($actor);
     }
 
     /**
      * Remove the specified resource from storage.
-     *
+     *~
      * @param  \App\Models\Actor  $actor
      * @return \Illuminate\Http\Response
      */

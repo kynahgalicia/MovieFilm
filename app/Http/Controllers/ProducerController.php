@@ -67,9 +67,10 @@ class ProducerController extends Controller
      * @param  \App\Models\Producer  $producer
      * @return \Illuminate\Http\Response
      */
-    public function edit(Producer $producer)
+    public function edit(Producer $producer, $id)
     {
-        //
+        $producer = Producer::find($id);
+        return response()->json($producer);
     }
 
     /**
@@ -79,9 +80,11 @@ class ProducerController extends Controller
      * @param  \App\Models\Producer  $producer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Producer $producer)
+    public function update(Request $request, $id)
     {
-        //
+        $producer = Producer::find($id);
+        $producer = $producer->update($request->all());
+        return response()->json($producer);
     }
 
     /**

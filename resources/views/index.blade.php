@@ -3,8 +3,8 @@
 <div class="container" id="content">
     <div class="table-responsive">
         <br>
-        <div class="" id="createButton">
-            
+        <div id="createButton" class="createButton">
+
         </div>
         
         <table class="table table-striped table-hover" id="tableContent">
@@ -51,7 +51,7 @@
 
                     <br>
                     <button type="submit" class="btn btn-dark" id="movieCreateSave">Save</button>
-                    <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btnoutline-dark" data-dismiss="modal">Cancel</button>
                 </form>
             </div>
         </div>
@@ -59,6 +59,49 @@
 </div>
 
 {{------------------------------------------------------------------ MOVIE EDIT --------------------------------------------------------------------------}}
+<div class="modal fade" id="movieEditModal" tabindex="-1" aria-labelledby="movieEditModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-dark">
+                <h3 class="modal-title" style="color:white">Edit Movie</h3>
+            </div>
+
+            <div class="modal-body">
+                <form class="movieEditForm" id="movieEditForm">
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type="text" class="form-control movieTitle" id="title" name="title">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="year">Year</label>
+                        <input type="text" class="form-control movieYear" id="year" name="year">
+                    </div>
+                    
+                    <div class="form-outline">
+                        <label class="form-label" for="plot">Plot</label>
+                        <textarea class="form-control moviePlot" id="plot" name="plot" rows="4"></textarea>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="genre">Genre</label>
+                        <select class="form-control movieGenres" id="genres" name="genre_id"></select>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="producer">Producer</label>
+                        <select class="form-control movieProducers" id="producers" name="producer_id"></select>
+                    </div>
+
+                    <br>
+                    <button type="submit" class="btn btn-dark" id="movieEditSave">Save</button>
+                    <button type="button" class="btn btnoutline-dark" data-dismiss="modal">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 {{------------------------------------------------------------------ MOVIE DELETE --------------------------------------------------------------------------}}
 
 
@@ -89,7 +132,7 @@
 
                     <br>
                     <button type="submit" class="btn btn-dark" id="actorCreateSave">Save</button>
-                    <button type="button" class="btn btn-outline-dark">Cancel</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
                 </form>
             </div>
         </div>
@@ -105,27 +148,26 @@
             </div>
 
             <div class="modal-body">
-                <form class="actorEditForm" id="actorEditForm" method="#" action="#">
-                    <input type="hidden" name="_method" value="PUT">
+                <form class="actorEditForm" id="actorEditForm">
                     <div class="form-group">
-                        <label for="actorName">Name</label>
-                        <input type="text" class="form-control" id="actorName" name="actorName">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control actorName" id="name" name="name">
                     </div>
                     
                     <div class="form-group">
-                        <label for="actorBirthday">Birthday</label>
-                        <input type="text" class="form-control" id="actorBirthday" name="actorBirthday">
+                        <label for="birthday">Birthday</label>
+                        <input type="text" class="form-control actorBirthday" id="birthday" name="birthday">
                     </div>
                     
                     <div class="form-outline">
-                        <label class="form-label" for="actorNotes">Notes</label>
-                        <textarea class="form-control" id="actorNotes" name="actorNotes" rows="4"></textarea>
+                        <label class="form-label" for="notes">Notes</label>
+                        <textarea class="form-control actorNotes" id="notes" name="notes" rows="4"></textarea>
                     </div>
 
                     <br>
-                    <button type="submit" class="btn btn-dark" id="actorEditSave">Save</button>
-                    <button type="button" class="btn btn-outline-dark">Cancel</button>
-                    <input type="hidden" id="actor_id" name="actor_id" value="0">
+                    <button type="submit" class="btn btn-dark actorEditSave" id="actorEditSave">Save</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
+                    
                     </form>
             </div>
         </div>
@@ -162,7 +204,7 @@
 
                     <br>
                     <button type="submit" class="btn btn-dark" id="producerCreateSave">Save</button>
-                    <button type="button" class="btn btn-outline-dark">Cancel</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
                 </form>
             </div>
         </div>
@@ -170,7 +212,7 @@
 </div>
 
 {{------------------------------------------------------------------ PRODUCER EDIT --------------------------------------------------------------------------}}
-<div class="modal fade" id="producerEditModal" tabindex="-1" aria-labelledby="producerEdit" aria-hidden="true">
+<div class="modal fade" id="producerEditModal" tabindex="-1" aria-labelledby="producerEditModal" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-dark">
@@ -178,25 +220,25 @@
             </div>
 
             <div class="modal-body">
-                <form class="producerEditForm">
+                <form class="producerEditForm" id="producerEditForm">
                     <div class="form-group">
                         <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name">
+                        <input type="text" class="form-control producerName" id="name" name="name">
                     </div>
                     
                     <div class="form-group">
                         <label for="birthday">Birthday</label>
-                        <input type="text" class="form-control" id="birthday">
+                        <input type="text" class="form-control producerBirthday" id="birthday" name="birthday">
                     </div>
                     
                     <div class="form-outline">
                         <label class="form-label" for="notes">Notes</label>
-                        <textarea class="form-control" id="notes" rows="4"></textarea>
+                        <textarea class="form-control producerNotes" id="notes" name="notes" rows="4"></textarea>
                     </div>
 
                     <br>
-                    <button type="button" class="btn btn-dark">Save</button>
-                    <button type="button" class="btn btn-outline-dark">Cancel</button>
+                    <button type="submit" class="btn btn-dark producerEditSave" id="producerEditSave">Save</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
                 </form>
             </div>
         </div>
@@ -223,7 +265,7 @@
 
                     <br>
                     <button type="submit" class="btn btn-dark" id="genreCreateSave">Save</button>
-                    <button type="button" class="btn btn-outline-dark">Cancel</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
                 </form>
             </div>
         </div>
@@ -247,7 +289,7 @@
                     
                     <br>
                     <button type="button" class="btn btn-dark">Save</button>
-                    <button type="button" class="btn btn-outline-dark">Cancel</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
                 </form>
             </div>
         </div>
@@ -274,7 +316,7 @@
 
                     <br>
                     <button type="submit" class="btn btn-dark" id="roleCreateSave">Save</button>
-                    <button type="button" class="btn btn-outline-dark">Cancel</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
                 </form>
             </div>
         </div>
@@ -298,7 +340,7 @@
 
                     <br>
                     <button type="button" class="btn btn-dark">Save</button>
-                    <button type="button" class="btn btn-outline-dark">Cancel</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
                 </form>
             </div>
         </div>
