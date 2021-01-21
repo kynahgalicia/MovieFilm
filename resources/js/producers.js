@@ -37,7 +37,7 @@ const producer = {
                     <td>
                         <i class="fas fa-edit producerEditIcon" data-bs-toggle="modal" data-bs-target="#producerEditModal" data-bs-id="" id="${element.producer_id}"></i>
                     </td>
-                    <td><i class="fas fa-trash-alt"></i></td>
+                    <td><i class="fas fa-trash-alt producerDeleteIcon" id="${element.producer_id}"></i></td>
                 </tr>
             `)
         });
@@ -74,7 +74,7 @@ const producer = {
                             <td>
                                 <i class="fas fa-edit producerEditIcon" data-bs-toggle="modal" data-bs-target="#producerEditModal" data-bs-id="" id="${data.producer_id}"></i>
                             </td>
-                            <td><i class="fas fa-trash-alt"></i></td>
+                            <td><i class="fas fa-trash-alt producerDeleteIcon" id="${element.producer_id}"></i></td>
                         </tr>
                     `)
                     
@@ -135,6 +135,31 @@ const producer = {
                     console.log('error');
                 }
             });
+        });
+
+        //PRODUCER DELETE
+        $('.producerDeleteIcon').on('click',function(e) {
+            e.preventDefault();
+            var id = this.id;
+            var $tr = $(this).closest('tr')
+            console.log(id);
+
+            if(confirm('Are you sure you want to delete?')){
+                $.ajax({
+                    type: "DELETE",
+                    url: "/api/Producer/" + id,
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    dataType: "json",
+                    success:function(data){
+                        console.log(data);
+                        $tr.remove();
+                    },
+                    error:function(data){
+                        console.log('Error:',data);
+                    }
+                })
+            }
+            
         });
     }
 }

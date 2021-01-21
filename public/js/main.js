@@ -38,7 +38,7 @@ var actor = {
     $('#content').html(template); //ACTOR VIEW
 
     response.forEach(function (element) {
-      $('#actorBody').append("\n                <tr>\n                    <td>".concat(element.actor_id, "</td>\n                    <td>").concat(element.name, "</td>\n                    <td>").concat(element.birthday, "</td>\n                    <td>").concat(element.notes, "</td>\n                    <td>\n                        <i class=\"fas fa-edit actorEditIcon\" data-bs-toggle=\"modal\" data-bs-target=\"#actorEditModal\" data-bs-id=\"\" id=\"").concat(element.actor_id, "\"></i>\n                    </td>\n                    <td><i class=\"fas fa-trash-alt\"></i></td>\n                </tr>\n            "));
+      $('#actorBody').append("\n                <tr>\n                    <td>".concat(element.actor_id, "</td>\n                    <td>").concat(element.name, "</td>\n                    <td>").concat(element.birthday, "</td>\n                    <td>").concat(element.notes, "</td>\n                    <td>\n                        <i class=\"fas fa-edit actorEditIcon\" data-bs-toggle=\"modal\" data-bs-target=\"#actorEditModal\" data-bs-id=\"\" id=\"").concat(element.actor_id, "\"></i>\n                    </td>\n                    <td><i class=\"fas fa-trash-alt actorDeleteIcon\" id=\"").concat(element.actor_id, "\"></i></td>\n                </tr>\n            "));
     });
     $('#content').append(_actorModals__WEBPACK_IMPORTED_MODULE_0__.default); //ACTOR CREATE
 
@@ -61,7 +61,7 @@ var actor = {
             var input = $(this);
             input.val('');
           });
-          $('#actorBody').append("\n                        <tr>\n                            <td>".concat(data.actor_id, "</td>\n                            <td>").concat(data.name, "</td>\n                            <td>").concat(data.birthday, "</td>\n                            <td>").concat(data.notes, "</td>\n                            <td>\n                                <i class=\"fas fa-edit actorEditIcon\" data-toggle=\"modal\" data-target=\"#actorEditModal\" data-id=\"\" id=\"").concat(data.actor_id, "\"></i>\n                            </td>\n                            <td><i class=\"fas fa-trash-alt\"></i></td>\n                        </tr>\n                    "));
+          $('#actorBody').append("\n                        <tr>\n                            <td>".concat(data.actor_id, "</td>\n                            <td>").concat(data.name, "</td>\n                            <td>").concat(data.birthday, "</td>\n                            <td>").concat(data.notes, "</td>\n                            <td>\n                                <i class=\"fas fa-edit actorEditIcon\" data-toggle=\"modal\" data-target=\"#actorEditModal\" data-id=\"\" id=\"").concat(data.actor_id, "\"></i>\n                            </td>\n                            <td><i class=\"fas fa-trash-alt actorDeleteIcon\" id=\"").concat(element.actor_id, "\"></i></td>\n                        </tr>\n                    "));
         },
         error: function error(_error) {
           console.log('error');
@@ -117,6 +117,31 @@ var actor = {
           console.log('error');
         }
       });
+    }); //ACTOR DELETE
+
+    $('.actorDeleteIcon').on('click', function (e) {
+      e.preventDefault();
+      var id = this.id;
+      var $tr = $(this).closest('tr');
+      console.log(id);
+
+      if (confirm('Are you sure you want to delete?')) {
+        $.ajax({
+          type: "DELETE",
+          url: "/api/Actor/" + id,
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          dataType: "json",
+          success: function success(data) {
+            console.log(data);
+            $tr.remove();
+          },
+          error: function error(data) {
+            console.log('Error:', data);
+          }
+        });
+      }
     });
   }
 };
@@ -160,7 +185,7 @@ var genre = {
     $('#content').html(template); //GENRE VIEW
 
     response.forEach(function (element) {
-      $('#genreBody').append("\n                <tr>\n                    <td>".concat(element.genre_id, "</td>\n                    <td>").concat(element.genre, "</td>\n                    <td>\n                        <i class=\"fas fa-edit genreEditIcon\" data-bs-toggle=\"modal\" data-bs-target=\"#genreEditModal\" data-bs-id=\"\" id=\"").concat(element.genre_id, "\"></i>\n                    </td>\n                    <td><i class=\"fas fa-trash-alt\"></i></td>\n                </tr>\n            "));
+      $('#genreBody').append("\n                <tr>\n                    <td>".concat(element.genre_id, "</td>\n                    <td>").concat(element.genre, "</td>\n                    <td>\n                        <i class=\"fas fa-edit genreEditIcon\" data-bs-toggle=\"modal\" data-bs-target=\"#genreEditModal\" data-bs-id=\"\" id=\"").concat(element.genre_id, "\"></i>\n                    </td>\n                    <td><i class=\"fas fa-trash-alt genreDeleteIcon\" id=\"").concat(element.genre_id, "\"></i></td>\n                </tr>\n            "));
     });
     $('#content').append(_genreModals__WEBPACK_IMPORTED_MODULE_0__.default); //GENRE CREATE
 
@@ -184,7 +209,7 @@ var genre = {
             var input = $(this);
             input.val('');
           });
-          $('#genreBody').append("\n                        <tr>\n                            <td>".concat(data.genre_id, "</td>\n                            <td>").concat(data.genre, "</td>\n                            <td>\n                                <i class=\"fas fa-edit genreEditIcon\" data-bs-toggle=\"modal\" data-bs-target=\"#genreEditModal\" data-bs-id=\"\" id=\"").concat(data.genre_id, "\"></i>\n                            </td>\n                            <td><i class=\"fas fa-trash-alt\"></i></td>\n                        </tr>\n                    "));
+          $('#genreBody').append("\n                        <tr>\n                            <td>".concat(data.genre_id, "</td>\n                            <td>").concat(data.genre, "</td>\n                            <td>\n                                <i class=\"fas fa-edit genreEditIcon\" data-bs-toggle=\"modal\" data-bs-target=\"#genreEditModal\" data-bs-id=\"\" id=\"").concat(data.genre_id, "\"></i>\n                            </td>\n                            <td><i class=\"fas fa-trash-alt genreDeleteIcon\" id=\"").concat(element.genre_id, "\"></i></td>\n                        </tr>\n                    "));
         },
         error: function error(_error) {
           console.log('error');
@@ -238,6 +263,31 @@ var genre = {
           console.log('error');
         }
       });
+    }); //GENRE DELETE
+
+    $('.genreDeleteIcon').on('click', function (e) {
+      e.preventDefault();
+      var id = this.id;
+      var $tr = $(this).closest('tr');
+      console.log(id);
+
+      if (confirm('Are you sure you want to delete?')) {
+        $.ajax({
+          type: "DELETE",
+          url: "/api/Genre/" + id,
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          dataType: "json",
+          success: function success(data) {
+            console.log(data);
+            $tr.remove();
+          },
+          error: function error(data) {
+            console.log('Error:', data);
+          }
+        });
+      }
     });
   }
 };
@@ -390,7 +440,7 @@ var movie = {
     $('#content').html(template); //MOVIE VIEW
 
     response.forEach(function (element) {
-      $('#movieBody').append("\n                <tr>\n                    <td>".concat(element.movie_id, "</td>\n                    <td>").concat(element.title, "</td>\n                    <td>").concat(element.year, "</td>\n                    <td>").concat(element.plot, "</td>\n                    <td>").concat(element.genre_id, "</td>\n                    <td>").concat(element.producer_id, "</td>\n                    <td>\n                        <i class=\"fas fa-edit movieEditIcon\" data-bs-toggle=\"modal\" data-bs-target=\"#movieEditModal\" data-id=\"\" id=\"").concat(element.movie_id, "\"></i>\n                    </td>\n                    <td>\n                        <i class=\"fas fa-trash-alt\"></i></a>\n                    </td>\n                </tr>\n            "));
+      $('#movieBody').append("\n                <tr>\n                    <td>".concat(element.movie_id, "</td>\n                    <td>").concat(element.title, "</td>\n                    <td>").concat(element.year, "</td>\n                    <td>").concat(element.plot, "</td>\n                    <td>").concat(element.genre_id, "</td>\n                    <td>").concat(element.producer_id, "</td>\n                    <td>\n                        <i class=\"fas fa-edit movieEditIcon\" data-bs-toggle=\"modal\" data-bs-target=\"#movieEditModal\" data-id=\"\" id=\"").concat(element.movie_id, "\"></i>\n                    </td>\n                    <td>\n                        <i class=\"fas fa-trash-alt movieDeleteIcon\" id=\"").concat(element.movie_id, "\"></i></a>\n                    </td>\n                </tr>\n            "));
     });
     $('#content').append(_movieModals__WEBPACK_IMPORTED_MODULE_0__.default); // SHOW GENRE PRODUCER ON CREATE DROPDOWN
 
@@ -449,7 +499,7 @@ var movie = {
             var input = $(this);
             input.val('');
           });
-          $('#movieBody').append("\n                        <tr>\n                            <td>".concat(data.movie_id, "</td>\n                            <td>").concat(data.title, "</td>\n                            <td>").concat(data.year, "</td>\n                            <td>").concat(data.plot, "</td>\n                            <td>").concat(data.genre_id, "</td>\n                            <td>").concat(data.producer_id, "</td>\n                            <td>\n                                <i class=\"fas fa-edit movieEditIcon\" data-bs-toggle=\"modal\" data-bs-target=\"#movieEditModal\" data-id=\"\" id=\"").concat(data.movie_id, "\"></i>\n                            </td>\n                            <td><i class=\"fas fa-trash-alt\"></i></td>\n                        </tr>\n                    "));
+          $('#movieBody').append("\n                        <tr>\n                            <td>".concat(data.movie_id, "</td>\n                            <td>").concat(data.title, "</td>\n                            <td>").concat(data.year, "</td>\n                            <td>").concat(data.plot, "</td>\n                            <td>").concat(data.genre_id, "</td>\n                            <td>").concat(data.producer_id, "</td>\n                            <td>\n                                <i class=\"fas fa-edit movieEditIcon\" data-bs-toggle=\"modal\" data-bs-target=\"#movieEditModal\" data-id=\"\" id=\"").concat(data.movie_id, "\"></i>\n                            </td>\n                            <td><i class=\"fas fa-trash-alt movieDeleteIcon\" id=\"").concat(element.movie_id, "\"></i></td>\n                        </tr>\n                    "));
         },
         error: function error(_error3) {
           console.log('error');
@@ -547,6 +597,31 @@ var movie = {
     $('#movieEditModal').on('shown.bs.modal', function (e) {
       $('.movieGenres').empty();
       $('.movieProducers').empty();
+    }); //MOVIE DELETE
+
+    $('.movieDeleteIcon').on('click', function (e) {
+      e.preventDefault();
+      var id = this.id;
+      var $tr = $(this).closest('tr');
+      console.log(id);
+
+      if (confirm('Are you sure you want to delete?')) {
+        $.ajax({
+          type: "DELETE",
+          url: "/api/Movie/" + id,
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          dataType: "json",
+          success: function success(data) {
+            console.log(data);
+            $tr.remove();
+          },
+          error: function error(data) {
+            console.log('Error:', data);
+          }
+        });
+      }
     });
   }
 };
@@ -590,7 +665,7 @@ var producer = {
     $('#content').html(template); //PRODUCER VIEW
 
     response.forEach(function (element) {
-      $('#producerBody').append("\n                <tr>\n                    <td>".concat(element.producer_id, "</td>\n                    <td>").concat(element.name, "</td>\n                    <td>").concat(element.birthday, "</td>\n                    <td>").concat(element.notes, "</td>\n                    <td>\n                        <i class=\"fas fa-edit producerEditIcon\" data-bs-toggle=\"modal\" data-bs-target=\"#producerEditModal\" data-bs-id=\"\" id=\"").concat(element.producer_id, "\"></i>\n                    </td>\n                    <td><i class=\"fas fa-trash-alt\"></i></td>\n                </tr>\n            "));
+      $('#producerBody').append("\n                <tr>\n                    <td>".concat(element.producer_id, "</td>\n                    <td>").concat(element.name, "</td>\n                    <td>").concat(element.birthday, "</td>\n                    <td>").concat(element.notes, "</td>\n                    <td>\n                        <i class=\"fas fa-edit producerEditIcon\" data-bs-toggle=\"modal\" data-bs-target=\"#producerEditModal\" data-bs-id=\"\" id=\"").concat(element.producer_id, "\"></i>\n                    </td>\n                    <td><i class=\"fas fa-trash-alt producerDeleteIcon\" id=\"").concat(element.producer_id, "\"></i></td>\n                </tr>\n            "));
     });
     $('#content').append(_producerModals__WEBPACK_IMPORTED_MODULE_1__.default); //PRODUCER CREATE
 
@@ -614,7 +689,7 @@ var producer = {
             var input = $(this);
             input.val('');
           });
-          $('#producerBody').append("\n                        <tr>\n                            <td>".concat(data.producer_id, "</td>\n                            <td>").concat(data.name, "</td>\n                            <td>").concat(data.birthday, "</td>\n                            <td>").concat(data.notes, "</td>\n                            <td>\n                                <i class=\"fas fa-edit producerEditIcon\" data-bs-toggle=\"modal\" data-bs-target=\"#producerEditModal\" data-bs-id=\"\" id=\"").concat(data.producer_id, "\"></i>\n                            </td>\n                            <td><i class=\"fas fa-trash-alt\"></i></td>\n                        </tr>\n                    "));
+          $('#producerBody').append("\n                        <tr>\n                            <td>".concat(data.producer_id, "</td>\n                            <td>").concat(data.name, "</td>\n                            <td>").concat(data.birthday, "</td>\n                            <td>").concat(data.notes, "</td>\n                            <td>\n                                <i class=\"fas fa-edit producerEditIcon\" data-bs-toggle=\"modal\" data-bs-target=\"#producerEditModal\" data-bs-id=\"\" id=\"").concat(data.producer_id, "\"></i>\n                            </td>\n                            <td><i class=\"fas fa-trash-alt producerDeleteIcon\" id=\"").concat(element.producer_id, "\"></i></td>\n                        </tr>\n                    "));
         },
         error: function error(_error) {
           console.log('error');
@@ -670,6 +745,31 @@ var producer = {
           console.log('error');
         }
       });
+    }); //PRODUCER DELETE
+
+    $('.producerDeleteIcon').on('click', function (e) {
+      e.preventDefault();
+      var id = this.id;
+      var $tr = $(this).closest('tr');
+      console.log(id);
+
+      if (confirm('Are you sure you want to delete?')) {
+        $.ajax({
+          type: "DELETE",
+          url: "/api/Producer/" + id,
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          dataType: "json",
+          success: function success(data) {
+            console.log(data);
+            $tr.remove();
+          },
+          error: function error(data) {
+            console.log('Error:', data);
+          }
+        });
+      }
     });
   }
 };
@@ -713,7 +813,7 @@ var role = {
     $('#content').html(template); //ROLE VIEW
 
     response.forEach(function (element) {
-      $('#roleBody').append("\n                <tr>\n                    <td>".concat(element.role_id, "</td>\n                    <td>").concat(element.roles, "</td>\n                    <td>\n                        <i class=\"fas fa-edit roleEditIcon\" data-bs-toggle=\"modal\" data-bs-target=\"#roleEditModal\" data-bs-id=\"\" id=\"").concat(element.role_id, "\"></i>\n                    </td>\n                    <td><i class=\"fas fa-trash-alt\"></i></td>\n                </tr>\n            "));
+      $('#roleBody').append("\n                <tr>\n                    <td>".concat(element.role_id, "</td>\n                    <td>").concat(element.roles, "</td>\n                    <td>\n                        <i class=\"fas fa-edit roleEditIcon\" data-bs-toggle=\"modal\" data-bs-target=\"#roleEditModal\" data-bs-id=\"\" id=\"").concat(element.role_id, "\"></i>\n                    </td>\n                    <td><i class=\"fas fa-trash-alt roleDeleteIcon\" id=\"").concat(element.role_id, "\"></i></td>\n                </tr>\n            "));
     });
     $('#content').append(_roleModals__WEBPACK_IMPORTED_MODULE_0__.default); //ROLE CREATE
 
@@ -736,7 +836,7 @@ var role = {
             var input = $(this);
             input.val('');
           });
-          $('#roleBody').append("\n                        <tr>\n                            <td>".concat(data.role_id, "</td>\n                            <td>").concat(data.roles, "</td>\n                            <td>\n                                <i class=\"fas fa-edit roleEditIcon\" data-bs-toggle=\"modal\" data-bs-target=\"#roleEditModal\" data-bs-id=\"\" id=\"").concat(data.role_id, "\"></i>\n                            </td>\n                            <td><i class=\"fas fa-trash-alt\"></i></td>\n                        </tr>\n                    "));
+          $('#roleBody').append("\n                        <tr>\n                            <td>".concat(data.role_id, "</td>\n                            <td>").concat(data.roles, "</td>\n                            <td>\n                                <i class=\"fas fa-edit roleEditIcon\" data-bs-toggle=\"modal\" data-bs-target=\"#roleEditModal\" data-bs-id=\"\" id=\"").concat(data.role_id, "\"></i>\n                            </td>\n                            <td><i class=\"fas fa-trash-alt roleDeleteIcon\" id=\"").concat(element.role_id, "\"></i></td>\n                        </tr>\n                    "));
         },
         error: function error(_error) {
           console.log('error');
@@ -790,6 +890,31 @@ var role = {
           console.log('error');
         }
       });
+    }); //ROLE DELETE
+
+    $('.roleDeleteIcon').on('click', function (e) {
+      e.preventDefault();
+      var id = this.id;
+      var $tr = $(this).closest('tr');
+      console.log(id);
+
+      if (confirm('Are you sure you want to delete?')) {
+        $.ajax({
+          type: "DELETE",
+          url: "/api/Role/" + id,
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          dataType: "json",
+          success: function success(data) {
+            console.log(data);
+            $tr.remove();
+          },
+          error: function error(data) {
+            console.log('Error:', data);
+          }
+        });
+      }
     });
   }
 };

@@ -88,8 +88,9 @@ class MovieController extends Controller
      * @param  \App\Models\Movie  $movie
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Movie $movie)
+    public function destroy(Movie $movie,$id)
     {
-        //
+        $movie = Movie::find($id)->delete();
+        return response()->json($movie);
     }
 }

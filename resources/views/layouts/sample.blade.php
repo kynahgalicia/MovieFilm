@@ -1,42 +1,122 @@
-<di class="modal fade" id="movieCreateModal" tabindex="-1" aria-labelledby="movieCreate" aria-hidden="true" data-backdrop="false">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header bg-dark">
-                <h3 class="modal-title" style="color:white">Create New Movie</h3>
-            </div>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Insert Update and Delete record with AJAX in Laravel</title>
+    <!-- provide the csrf token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+    
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> --> <!-- jQuery CDN -->
+    <script src="{{asset('js/jquery-3.3.1.min.js')}}"></script>
+  </head>
+  <body>
 
-            <div class="modal-body">
-                <form class="movieCreateForm" id="movieCreateForm">
-                    <div class="form-group">
-                        <label for="title">Title</label>
-                        <input type="text" class="form-control" id="title" name="title" value="">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="year">Year</label>
-                        <input type="text" class="form-control" id="year" name="year" value="">
-                    </div>
-                    
-                    <div class="form-outline">
-                        <label class="form-label" for="plot">Plot</label>
-                        <textarea class="form-control" id="plot" name="plot" value="" rows="4"></textarea>
-                    </div>
+    <table border='1' id='userTable' style='border-collapse: collapse;'>
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input type='text' id='username'></td>
+          <td><input type='text' id='name' ></td>
+          <td><input type='text' id='email' ></td>
+          <td><input type='button' id='adduser' value='Add'></td>
+        </tr>
+      </tbody>
+    </table>
 
-                    <div class="form-group col-md-6">
-                        <label for="genre">Genre</label>
-                        <select class="form-control" id="genre_id" name="genre_id"></select>
-                    </div>
+<!-- Script -->
+<script type='text/javascript'>
+var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
-                    <div class="form-group col-md-6">
-                        <label for="producer">Producer</label>
-                        <select class="form-control" id="producer_id" name="producer_id"></select>
-                    </div>
+$(document).ready(function(){
 
-                    <br>
-                    <button type="submit" class="btn btn-dark" id="movieCreateSave">Save</button>
-                    <button type="button" class="btn btnoutline-dark" data-dismiss="modal">Cancel</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</di<v>
+  // Fetch records
+  fetchRecords();
+
+  // Add record
+  $('#adduser').click(function(){
+
+    var username = $('#username').val();
+    var name = $('#name').val();
+    var email = $('#email').val();
+
+    if(username != '' && name != '' && email != ''){
+      $.ajax({
+        url: 'addUser',
+        type: 'post',
+        data: {_token: CSRF_TOKEN,username: username,name: name,email: email},
+        success: function(response){
+
+          if(response > 0){
+            var id = response;
+            var findnorecord = $('#userTable tr.norecord').length;
+
+            if(findnorecord > 0){
+              $('#userTable tr.norecord').remove();
+            }
+            var tr_str = "<tr>"+
+            "<td align='center'><input type='text' value='" + username + "' id='username_"+id+"' disabled ></td>" +
+            "<td align='center'><input type='text' value='" + name + "' id='name_"+id+"'></td>" +
+            "<td align='center'><input type='email' value='" + email + "' id='email_"+id+"'></td>" +
+            "<td align='center'><input type='button' value='Update' class='update' data-id='"+id+"' ><input type='button' value='Delete' class='delete' data-id='"+id+"' ></td>"+
+            "</tr>";
+
+            $("#userTable tbody").append(tr_str);
+          }else if(response == 0){
+            alert('Username already in use.');
+          }else{
+            alert(response);
+          }
+
+          // Empty the input fields
+          $('#username').val('');
+          $('#name').val('');
+          $('#email').val('');
+        }
+      });
+    }else{
+      alert('Fill all fields');
+    }
+  });
+
+});
+
+// Update record
+$(document).on("click", ".update" , function() {
+  var edit_id = $(this).data('id');
+
+  var name = $('#name_'+edit_id).val();
+  var email = $('#email_'+edit_id).val();
+
+  if(name != '' && email != ''){
+    $.ajax({
+      url: 'updateUser',
+      type: 'post',
+      data: {_token: CSRF_TOKEN,editid: edit_id,name: name,email: email},
+      success: function(response){
+        alert(response);
+      }
+    });
+  }else{
+    alert('Fill all fields');
+  }
+});
+
+// Delete record
+$(document).on("click", ".delete" , function() {
+  var delete_id = $(this).data('id');
+  var el = this;
+  $.ajax({
+    url: 'deleteUser/'+delete_id,
+    type: 'get',
+    success: function(response){
+      $(el).closest( "tr" ).remove();
+      alert(response);
+    }
+  });
+});

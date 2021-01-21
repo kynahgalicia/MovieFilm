@@ -89,8 +89,9 @@ class ActorController extends Controller
      * @param  \App\Models\Actor  $actor
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Actor $actor)
+    public function destroy(Actor $actor,$id)
     {
-        //
+        $actor = Actor::find($id)->delete();
+        return response()->json($actor);
     }
 }

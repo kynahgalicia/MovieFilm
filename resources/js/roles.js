@@ -35,7 +35,7 @@ const role = {
                     <td>
                         <i class="fas fa-edit roleEditIcon" data-bs-toggle="modal" data-bs-target="#roleEditModal" data-bs-id="" id="${element.role_id}"></i>
                     </td>
-                    <td><i class="fas fa-trash-alt"></i></td>
+                    <td><i class="fas fa-trash-alt roleDeleteIcon" id="${element.role_id}"></i></td>
                 </tr>
             `)
         });
@@ -69,7 +69,7 @@ const role = {
                             <td>
                                 <i class="fas fa-edit roleEditIcon" data-bs-toggle="modal" data-bs-target="#roleEditModal" data-bs-id="" id="${data.role_id}"></i>
                             </td>
-                            <td><i class="fas fa-trash-alt"></i></td>
+                            <td><i class="fas fa-trash-alt roleDeleteIcon" id="${element.role_id}"></i></td>
                         </tr>
                     `)
                                 
@@ -127,6 +127,31 @@ const role = {
                     console.log('error');
                 }
             });
+        });
+
+        //ROLE DELETE
+        $('.roleDeleteIcon').on('click',function(e) {
+            e.preventDefault();
+            var id = this.id;
+            var $tr = $(this).closest('tr')
+            console.log(id);
+
+            if(confirm('Are you sure you want to delete?')){
+                $.ajax({
+                    type: "DELETE",
+                    url: "/api/Role/" + id,
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    dataType: "json",
+                    success:function(data){
+                        console.log(data);
+                        $tr.remove();
+                    },
+                    error:function(data){
+                        console.log('Error:',data);
+                    }
+                })
+            }
+            
         });
     }
 }

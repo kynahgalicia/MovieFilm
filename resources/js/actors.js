@@ -38,7 +38,7 @@ const actor = {
                     <td>
                         <i class="fas fa-edit actorEditIcon" data-bs-toggle="modal" data-bs-target="#actorEditModal" data-bs-id="" id="${element.actor_id}"></i>
                     </td>
-                    <td><i class="fas fa-trash-alt"></i></td>
+                    <td><i class="fas fa-trash-alt actorDeleteIcon" id="${element.actor_id}"></i></td>
                 </tr>
             `)
         });
@@ -74,7 +74,7 @@ const actor = {
                             <td>
                                 <i class="fas fa-edit actorEditIcon" data-toggle="modal" data-target="#actorEditModal" data-id="" id="${data.actor_id}"></i>
                             </td>
-                            <td><i class="fas fa-trash-alt"></i></td>
+                            <td><i class="fas fa-trash-alt actorDeleteIcon" id="${element.actor_id}"></i></td>
                         </tr>
                     `)
                     
@@ -134,6 +134,31 @@ const actor = {
                     console.log('error');
                 }
             });
+        });
+
+        //ACTOR DELETE
+        $('.actorDeleteIcon').on('click',function(e) {
+            e.preventDefault();
+            var id = this.id;
+            var $tr = $(this).closest('tr')
+            console.log(id);
+
+            if(confirm('Are you sure you want to delete?')){
+                $.ajax({
+                    type: "DELETE",
+                    url: "/api/Actor/" + id,
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    dataType: "json",
+                    success:function(data){
+                        console.log(data);
+                        $tr.remove();
+                    },
+                    error:function(data){
+                        console.log('Error:',data);
+                    }
+                })
+            }
+            
         });
     }
 }

@@ -43,7 +43,7 @@ const movie = {
                         <i class="fas fa-edit movieEditIcon" data-bs-toggle="modal" data-bs-target="#movieEditModal" data-id="" id="${element.movie_id}"></i>
                     </td>
                     <td>
-                        <i class="fas fa-trash-alt"></i></a>
+                        <i class="fas fa-trash-alt movieDeleteIcon" id="${element.movie_id}"></i></a>
                     </td>
                 </tr>
             `)
@@ -120,7 +120,7 @@ const movie = {
                             <td>
                                 <i class="fas fa-edit movieEditIcon" data-bs-toggle="modal" data-bs-target="#movieEditModal" data-id="" id="${data.movie_id}"></i>
                             </td>
-                            <td><i class="fas fa-trash-alt"></i></td>
+                            <td><i class="fas fa-trash-alt movieDeleteIcon" id="${element.movie_id}"></i></td>
                         </tr>
                     `)
                 },
@@ -226,6 +226,31 @@ const movie = {
         $('#movieEditModal').on('shown.bs.modal', (e) => {
             $('.movieGenres').empty();
             $('.movieProducers').empty();
+        });
+
+        //MOVIE DELETE
+        $('.movieDeleteIcon').on('click',function(e) {
+            e.preventDefault();
+            var id = this.id;
+            var $tr = $(this).closest('tr')
+            console.log(id);
+
+            if(confirm('Are you sure you want to delete?')){
+                $.ajax({
+                    type: "DELETE",
+                    url: "/api/Movie/" + id,
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    dataType: "json",
+                    success:function(data){
+                        console.log(data);
+                        $tr.remove();
+                    },
+                    error:function(data){
+                        console.log('Error:',data);
+                    }
+                })
+            }
+            
         });
     }
 }
