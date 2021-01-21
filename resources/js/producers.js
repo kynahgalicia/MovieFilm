@@ -1,23 +1,30 @@
+import link from './link';
+import producerModal from './producerModals';
+
 const producer = {
     show(response){
         let template = `
-            <thead>
-                <tr>
-                    <th>Producer ID</th>
-                    <th>Name</th>
-                    <th>Birthday</th>
-                    <th>Notes</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
-                </tr>
-            </thead>
-            <tbody id="producerBody">
-            </tbody>
+        <div class="table-responsive">
+            <br>
+            <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark" data-bs-toggle="modal" data-bs-target="#producerCreateModal"> Add Producer </button>
+            <table class="table table-striped table-hover" id="tableContent">
+                <thead>
+                    <tr>
+                        <th>Producer ID</th>
+                        <th>Name</th>
+                        <th>Birthday</th>
+                        <th>Notes</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody id="producerBody">
+                </tbody>
+            </table>
+        </div>
         `;
 
-        let createButton = `<button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark" data-toggle="modal" data-target="#producerCreateModal"> Add Producer </button>`
-        $('#tableContent').html(template);
-        $('#createButton').html(createButton);
+        $('#content').html(template);
 
         //PRODUCER VIEW
         response.forEach(element =>{
@@ -28,12 +35,14 @@ const producer = {
                     <td>${element.birthday}</td>
                     <td>${element.notes}</td>
                     <td>
-                        <i class="fas fa-edit producerEditIcon" data-toggle="modal" data-target="#producerEditModal" data-id="" id="${element.producer_id}"></i>
+                        <i class="fas fa-edit producerEditIcon" data-bs-toggle="modal" data-bs-target="#producerEditModal" data-bs-id="" id="${element.producer_id}"></i>
                     </td>
                     <td><i class="fas fa-trash-alt"></i></td>
                 </tr>
             `)
         });
+
+        $('#content').append(producerModal);
 
         //PRODUCER CREATE
         $("#producerCreateSave").on('click', function(e) {
@@ -48,7 +57,14 @@ const producer = {
                 dataType: "json",
                 success: function(data) {
                     console.log(data);
-                    $('#producerCreateModal').hide();
+                    $('#producerCreateModal').modal('hide');
+
+                    //clearing of input fields
+                    $('#producerCreateForm :input').each(function () {
+                        let input = $(this)
+                        input.val('')
+                    });
+
                     $('#producerBody').append(`
                         <tr>
                             <td>${data.producer_id}</td>
@@ -56,7 +72,7 @@ const producer = {
                             <td>${data.birthday}</td>
                             <td>${data.notes}</td>
                             <td>
-                                <i class="fas fa-edit" data-toggle="modal" data-target="#producerEditModal" data-id="${data.producer_id}" id="producerEditIcon"></i>
+                                <i class="fas fa-edit producerEditIcon" data-bs-toggle="modal" data-bs-target="#producerEditModal" data-bs-id="" id="${data.producer_id}"></i>
                             </td>
                             <td><i class="fas fa-trash-alt"></i></td>
                         </tr>
@@ -76,7 +92,7 @@ const producer = {
             $('<input>')
                 .attr({
                     type: 'hidden',
-                    id: 'producer_id',
+                    id: 'producers_id',
                     name: 'producer_id',
                     value: id,
                 }).appendTo('#producerEditForm');
@@ -97,28 +113,28 @@ const producer = {
         });
 
 
-        //PRODUCER EDIT
+        //PRODUCER UPDATE
         $("#producerEditSave").on('click', function(e) {
-            var id = $("#producer_id").val();
+            e.preventDefault();
+            var id = $("#producers_id").val();
             var data = $("#producerEditForm").serialize();
             console.log(id);
             console.log(data);
-            // $.ajax({
-            //     type: "PUT",
-            //     url: "/api/Producer/"+ id ,
-            //     data: data,
-            //     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            //     dataType: "json",
-            //     success: function(data) {
-            //         console.log(data);
-            //         $('#producerEditModal').each(function(){
-            //                 $(this).modal('hide'); 
-            //             });
-            //     },
-            //     error: function(error) {
-            //         console.log('error');
-            //     }
-            // });
+            $.ajax({
+                type: "PUT",
+                url: "/api/Producer/"+ id ,
+                data: data,
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                dataType: "json",
+                success: function(data) {
+                    console.log(data);
+                    $('#producerEditModal').modal('hide');
+                    link('producer')
+                },
+                error: function(error) {
+                    console.log('error');
+                }
+            });
         });
     }
 }

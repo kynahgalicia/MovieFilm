@@ -1,23 +1,31 @@
+import actorModal from './actorModals';
+import link from './link'
+
 const actor = {
     show(response){
         let template = `
-        <thead>
-            <tr>
-                <th>Actor ID</th>
-                <th>Name</th>
-                <th>Birthday</th>
-                <th>Notes</th>
-                <th>Edit</th>
-                <th>Delete</th>
-            </tr>
-        </thead>
-        <tbody id="actorBody">
-        </tbody>
+        <div class="table-responsive">
+            <br>
+            <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark" data-bs-toggle="modal" id="actorCreateButton" data-bs-target="#actorCreateModal"> Add Actor </button>
+            <table class="table table-striped table-hover" id="tableContent">
+                <thead>
+                    <tr>
+                        <th>Actor ID</th>
+                        <th>Name</th>
+                        <th>Birthday</th>
+                        <th>Notes</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody id="actorBody">
+
+                </tbody>
+            </table>
+        </div>
     `;
 
-        let createButton = `<button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark" data-toggle="modal" data-target="#actorCreateModal"> Add Actor </button>`
-        $('#tableContent').html(template);
-        $('#createButton').html(createButton);
+        $('#content').html(template);
 
         //ACTOR VIEW
         response.forEach(element =>{
@@ -28,18 +36,19 @@ const actor = {
                     <td>${element.birthday}</td>
                     <td>${element.notes}</td>
                     <td>
-                        <i class="fas fa-edit actorEditIcon" data-toggle="modal" data-target="#actorEditModal" data-id="" id="${element.actor_id}"></i>
+                        <i class="fas fa-edit actorEditIcon" data-bs-toggle="modal" data-bs-target="#actorEditModal" data-bs-id="" id="${element.actor_id}"></i>
                     </td>
                     <td><i class="fas fa-trash-alt"></i></td>
                 </tr>
             `)
         });
 
+        $('#content').append(actorModal);
+
         //ACTOR CREATE
         $("#actorCreateSave").on('click', function(e) {
             e.preventDefault();
             var data = $("#actorCreateForm").serialize();
-            console.log(data);
             $.ajax({
                 type: "post",
                 url: "/api/Actor",
@@ -48,7 +57,14 @@ const actor = {
                 dataType: "json",
                 success: function(data) {
                     console.log(data);
-                    $('#actorCreateModal').hide();
+                    $('#actorCreateModal').modal('hide');
+
+                    //clearing of input fields
+                    $('#actorCreateForm :input').each(function () {
+                        let input = $(this)
+                        input.val('')
+                    });
+
                     $('#actorBody').append(`
                         <tr>
                             <td>${data.actor_id}</td>
@@ -56,7 +72,7 @@ const actor = {
                             <td>${data.birthday}</td>
                             <td>${data.notes}</td>
                             <td>
-                                <i class="fas fa-edit" data-toggle="modal" data-target="#actorEditModal" data-id="${data.actor_id}" id="actorEditIcon"></i>
+                                <i class="fas fa-edit actorEditIcon" data-toggle="modal" data-target="#actorEditModal" data-id="" id="${data.actor_id}"></i>
                             </td>
                             <td><i class="fas fa-trash-alt"></i></td>
                         </tr>
@@ -98,6 +114,7 @@ const actor = {
 
         //ACTOR UPDATE
         $("#actorEditSave").on('click', function(e) {
+            e.preventDefault();
             var id = $("#actor_id").val();
             var data = $("#actorEditForm").serialize();
             console.log(id);
@@ -110,9 +127,8 @@ const actor = {
                 dataType: "json",
                 success: function(data) {
                     console.log(data);
-                    $('#actorEditModal').each(function(){
-                            $(this).modal('hide'); 
-                        });
+                    $('#actorEditModal').modal('hide');
+                    link('actor')
                 },
                 error: function(error) {
                     console.log('error');

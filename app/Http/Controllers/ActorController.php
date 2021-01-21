@@ -20,7 +20,7 @@ class ActorController extends Controller
 
     public function getAllActor(Request $request)
     {
-        $actor = Actor::orderBy('created_at')->get();
+        $actor = Actor::orderBy('created_at','ASC')->paginate(15);
         return response()->json($actor);
     }
 

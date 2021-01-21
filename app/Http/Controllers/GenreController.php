@@ -14,17 +14,13 @@ class GenreController extends Controller
      */
     public function index()
     {
-        $genres = Genre::orderBy('genre_id')->get();
-        return response()->json($genres);
+        $genre = Genre::orderBy('genre_id')->get();
+        return response()->json($genre);
     }
 
     public function getAllGenre(Request $request){
-        if ($request->ajax()){
-            $genre = Genre::orderBy('genre_id')->get();
-            return response()->json($genre);
-        }
-
-        return view('index');
+        $genre = Genre::orderBy('genre_id','ASC')->paginate(15);
+        return response()->json($genre);
     }
 
     /**
@@ -66,9 +62,10 @@ class GenreController extends Controller
      * @param  \App\Models\Genre  $genre
      * @return \Illuminate\Http\Response
      */
-    public function edit(Genre $genre)
+    public function edit(Genre $genre, $id)
     {
-        //
+        $genre = Genre::find($id);
+        return response()->json($genre);
     }
 
     /**
@@ -78,9 +75,11 @@ class GenreController extends Controller
      * @param  \App\Models\Genre  $genre
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Genre $genre)
+    public function update(Request $request, Genre $genre, $id)
     {
-        //
+        $genre = Genre::find($id);
+        $genre = $genre->update($request->all());
+        return response()->json($genre);
     }
 
     /**

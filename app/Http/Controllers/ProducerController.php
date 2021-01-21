@@ -20,12 +20,8 @@ class ProducerController extends Controller
 
     public function getAllProducer(Request $request)
     {
-        if ($request->ajax()){
-            $producer = Producer::orderBy('producer_id')->get();
-            return response()->json($producer);
-        }
-
-        return view('index');
+        $producer = Producer::orderBy('producer_id','ASC')->paginate(15);
+        return response()->json($producer);
     }
 
     /**
