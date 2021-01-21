@@ -89,45 +89,64 @@ const movie = {
         })
 
         //MOVIE CREATE
-        $("#movieCreateSave").on('click', function(e) {
-            e.preventDefault();
-            var data = $("#movieCreateForm").serialize();
-            console.log(data);
-            $.ajax({
-                type: "POST",
-                url: "/api/Movie",
-                data: data,
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                dataType: "json",
-                success: function(data) {
-                    console.log(data);
-                    $('#movieCreateModal').modal('hide');
+        $('#movieCreateForm').validate({
+            rules: {
+                title: { required:true, minlength:5 },
+                year: { required:true, minlength:4, maxlength:4},
+                plot: { required:true, minlength:10},
+                genre_id: { required:true},
+                producer_id: { required:true},
+            },
+            messages: {
+                title: { required:'required'},
+                year: { required:'required', rangelength: 'required length is 4 digits', range: 'range should be between 1900-2020'},
+                plot: { required:'required'},
+                genre_id: { required:'required'},
+                producer_id: { required:'required'},
+            },
+            errorPlacement: function(error, element){
+                error.insertAfter(element)
+            },
+            submitHandler: function(form,e) {
+                e.preventDefault();
+                var data = $("#movieCreateForm").serialize();
+                console.log(data);
+                $.ajax({
+                    type: "POST",
+                    url: "/api/Movie",
+                    data: data,
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    dataType: "json",
+                    success: function(data) {
+                        console.log(data);
+                        $('#movieCreateModal').modal('hide');
 
-                    //clearing of input fields
-                    $('#movieCreateForm :input').each(function () {
-                        let input = $(this)
-                        input.val('')
-                    });
+                        //clearing of input fields
+                        $('#movieCreateForm :input').each(function () {
+                            let input = $(this)
+                            input.val('')
+                        });
 
-                    $('#movieBody').append(`
-                        <tr>
-                            <td>${data.movie_id}</td>
-                            <td>${data.title}</td>
-                            <td>${data.year}</td>
-                            <td>${data.plot}</td>
-                            <td>${data.genre_id}</td>
-                            <td>${data.producer_id}</td>
-                            <td>
-                                <i class="fas fa-edit movieEditIcon" data-bs-toggle="modal" data-bs-target="#movieEditModal" data-id="" id="${data.movie_id}"></i>
-                            </td>
-                            <td><i class="fas fa-trash-alt movieDeleteIcon" id="${element.movie_id}"></i></td>
-                        </tr>
-                    `)
-                },
-                error: function(error) {
-                    console.log('error');
-                }
-            });
+                        $('#movieBody').append(`
+                            <tr>
+                                <td>${data.movie_id}</td>
+                                <td>${data.title}</td>
+                                <td>${data.year}</td>
+                                <td>${data.plot}</td>
+                                <td>${data.genre_id}</td>
+                                <td>${data.producer_id}</td>
+                                <td>
+                                    <i class="fas fa-edit movieEditIcon" data-bs-toggle="modal" data-bs-target="#movieEditModal" data-id="" id="${data.movie_id}"></i>
+                                </td>
+                                <td><i class="fas fa-trash-alt movieDeleteIcon" id="${data.movie_id}"></i></td>
+                            </tr>
+                        `)
+                    },
+                    error: function(error) {
+                        console.log('error');
+                    }
+                });
+            }
         });
 
         //MOVIE EDIT

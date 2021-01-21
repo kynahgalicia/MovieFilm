@@ -43,41 +43,53 @@ const role = {
         $('#content').append(roleModal);
 
         //ROLE CREATE
-        $("#roleCreateSave").on('click', function(e) {
-            e.preventDefault();
-            var data = $("#roleCreateForm").serialize();
-            console.log(data);
-            $.ajax({
-                type: "post",
-                url: "/api/Role",
-                data: data,
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                dataType: "json",
-                success: function(data) {
-                    console.log(data);
-                    $('#roleCreateModal').modal('hide');
+        $('#roleCreateForm').validate({
+            rules: {
+                roles: { required:true, minlength:5 }
+            },
+            messages: {
+                roles: { required:'required'}
+            
+            },
+            errorPlacement: function(error, element){
+                error.insertAfter(element)
+            },
+            submitHandler: function(form,e) {
+                e.preventDefault();
+                var data = $("#roleCreateForm").serialize();
+                console.log(data);
+                $.ajax({
+                    type: "post",
+                    url: "/api/Role",
+                    data: data,
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    dataType: "json",
+                    success: function(data) {
+                        console.log(data);
+                        $('#roleCreateModal').modal('hide');
 
-                    $('#roleCreateForm :input').each(function () {
-                        let input = $(this)
-                        input.val('')
-                    });
+                        $('#roleCreateForm :input').each(function () {
+                            let input = $(this)
+                            input.val('')
+                        });
 
-                    $('#roleBody').append(`
-                        <tr>
-                            <td>${data.role_id}</td>
-                            <td>${data.roles}</td>
-                            <td>
-                                <i class="fas fa-edit roleEditIcon" data-bs-toggle="modal" data-bs-target="#roleEditModal" data-bs-id="" id="${data.role_id}"></i>
-                            </td>
-                            <td><i class="fas fa-trash-alt roleDeleteIcon" id="${element.role_id}"></i></td>
-                        </tr>
-                    `)
-                                
-                },
-                error: function(error) {
-                    console.log('error');
-                }
-            });
+                        $('#roleBody').append(`
+                            <tr>
+                                <td>${data.role_id}</td>
+                                <td>${data.roles}</td>
+                                <td>
+                                    <i class="fas fa-edit roleEditIcon" data-bs-toggle="modal" data-bs-target="#roleEditModal" data-bs-id="" id="${data.role_id}"></i>
+                                </td>
+                                <td><i class="fas fa-trash-alt roleDeleteIcon" id="${data.role_id}"></i></td>
+                            </tr>
+                        `)
+                                    
+                    },
+                    error: function(error) {
+                        console.log('error');
+                    }
+                });
+            }
         });
 
         //ROLE EDIT
@@ -106,27 +118,39 @@ const role = {
         });
 
         //ROLE UPDATE
-        $("#roleEditSave").on('click', function(e) {
-            e.preventDefault();
-            var id = $("#role_id").val();
-            var data = $("#roleEditForm").serialize();
-            console.log(id);
-            console.log(data);
-            $.ajax({
-                type: "PUT",
-                url: "/api/Role/"+ id ,
-                data: data,
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                dataType: "json",
-                success: function(data) {
-                    console.log(data);
-                    $('#roleEditModal').modal('hide');
-                    link('role')
-                },
-                error: function(error) {
-                    console.log('error');
-                }
-            });
+        $('#roleEditForm').validate({
+            rules: {
+                roles: { required:true, minlength:5 }
+            },
+            messages: {
+                roles: { required:'required'}
+            
+            },
+            errorPlacement: function(error, element){
+                error.insertAfter(element)
+            },
+            submitHandler: function(form,e) {
+                e.preventDefault();
+                var id = $("#role_id").val();
+                var data = $("#roleEditForm").serialize();
+                console.log(id);
+                console.log(data);
+                $.ajax({
+                    type: "PUT",
+                    url: "/api/Role/"+ id ,
+                    data: data,
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    dataType: "json",
+                    success: function(data) {
+                        console.log(data);
+                        $('#roleEditModal').modal('hide');
+                        link('role')
+                    },
+                    error: function(error) {
+                        console.log('error');
+                    }
+                });
+            }
         });
 
         //ROLE DELETE

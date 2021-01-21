@@ -46,43 +46,59 @@ const actor = {
         $('#content').append(actorModal);
 
         //ACTOR CREATE
-        $("#actorCreateSave").on('click', function(e) {
-            e.preventDefault();
-            var data = $("#actorCreateForm").serialize();
-            $.ajax({
-                type: "post",
-                url: "/api/Actor",
-                data: data,
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                dataType: "json",
-                success: function(data) {
-                    console.log(data);
-                    $('#actorCreateModal').modal('hide');
+        $('#actorCreateForm').validate({
+            rules: {
+                name: { required:true, minlength:5 },
+                birthday: { required:true, minlength:10, maxlength: 10},
+                notes: { required:true, minlength:10 },
+            },
+            messages: {
+                name: { required:'required'},
+                birthday: { required:'required'},
+                notes: { required:'required'},
+            
+            },
+            errorPlacement: function(error, element){
+                error.insertAfter(element)
+            },
+            submitHandler: function(form,e) {
+                e.preventDefault();
+                var data = $("#actorCreateForm").serialize();
+                $.ajax({
+                    type: "post",
+                    url: "/api/Actor",
+                    data: data,
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    dataType: "json",
+                    success: function(data) {
+                        console.log(data);
+                        $('#actorCreateModal').modal('hide');
 
-                    //clearing of input fields
-                    $('#actorCreateForm :input').each(function () {
-                        let input = $(this)
-                        input.val('')
-                    });
+                        //clearing of input fields
+                        $('#actorCreateForm :input').each(function () {
+                            let input = $(this)
+                            input.val('')
+                        });
 
-                    $('#actorBody').append(`
-                        <tr>
-                            <td>${data.actor_id}</td>
-                            <td>${data.name}</td>
-                            <td>${data.birthday}</td>
-                            <td>${data.notes}</td>
-                            <td>
-                                <i class="fas fa-edit actorEditIcon" data-toggle="modal" data-target="#actorEditModal" data-id="" id="${data.actor_id}"></i>
-                            </td>
-                            <td><i class="fas fa-trash-alt actorDeleteIcon" id="${element.actor_id}"></i></td>
-                        </tr>
-                    `)
-                    
-                },
-                error: function(error) {
-                    console.log('error');
-                }
-            });
+                        $('#actorBody').append(`
+                            <tr>
+                                <td>${data.actor_id}</td>
+                                <td>${data.name}</td>
+                                <td>${data.birthday}</td>
+                                <td>${data.notes}</td>
+                                <td>
+                                    <i class="fas fa-edit actorEditIcon" data-toggle="modal" data-target="#actorEditModal" data-id="" id="${data.actor_id}"></i>
+                                </td>
+                                <td><i class="fas fa-trash-alt actorDeleteIcon" id="${data.actor_id}"></i></td>
+                            </tr>
+                        `)
+                        
+                    },
+                    error: function(error) {
+                        console.log('error');
+                    }
+                });
+            }
         });
 
         //ACTOR EDIT
@@ -113,27 +129,43 @@ const actor = {
         });
 
         //ACTOR UPDATE
-        $("#actorEditSave").on('click', function(e) {
-            e.preventDefault();
-            var id = $("#actor_id").val();
-            var data = $("#actorEditForm").serialize();
-            console.log(id);
-            console.log(data);
-            $.ajax({
-                type: "PUT",
-                url: "/api/Actor/"+ id ,
-                data: data,
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                dataType: "json",
-                success: function(data) {
-                    console.log(data);
-                    $('#actorEditModal').modal('hide');
-                    link('actor')
-                },
-                error: function(error) {
-                    console.log('error');
-                }
-            });
+        $('#actorEditForm').validate({
+            rules: {
+                name: { required:true, minlength:5 },
+                birthday: { required:true, minlength:10, maxlength: 10},
+                notes: { required:true, minlength:10 },
+            },
+            messages: {
+                name: { required:'required'},
+                birthday: { required:'required'},
+                notes: { required:'required'},
+            
+            },
+            errorPlacement: function(error, element){
+                error.insertAfter(element)
+            },
+            submitHandler: function(form,e) {
+                e.preventDefault();
+                var id = $("#actor_id").val();
+                var data = $("#actorEditForm").serialize();
+                console.log(id);
+                console.log(data);
+                $.ajax({
+                    type: "PUT",
+                    url: "/api/Actor/"+ id ,
+                    data: data,
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    dataType: "json",
+                    success: function(data) {
+                        console.log(data);
+                        $('#actorEditModal').modal('hide');
+                        link('actor')
+                    },
+                    error: function(error) {
+                        console.log('error');
+                    }
+                });
+            }
         });
 
         //ACTOR DELETE

@@ -42,31 +42,62 @@ var actor = {
     });
     $('#content').append(_actorModals__WEBPACK_IMPORTED_MODULE_0__.default); //ACTOR CREATE
 
-    $("#actorCreateSave").on('click', function (e) {
-      e.preventDefault();
-      var data = $("#actorCreateForm").serialize();
-      $.ajax({
-        type: "post",
-        url: "/api/Actor",
-        data: data,
-        headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    $('#actorCreateForm').validate({
+      rules: {
+        name: {
+          required: true,
+          minlength: 5
         },
-        dataType: "json",
-        success: function success(data) {
-          console.log(data);
-          $('#actorCreateModal').modal('hide'); //clearing of input fields
-
-          $('#actorCreateForm :input').each(function () {
-            var input = $(this);
-            input.val('');
-          });
-          $('#actorBody').append("\n                        <tr>\n                            <td>".concat(data.actor_id, "</td>\n                            <td>").concat(data.name, "</td>\n                            <td>").concat(data.birthday, "</td>\n                            <td>").concat(data.notes, "</td>\n                            <td>\n                                <i class=\"fas fa-edit actorEditIcon\" data-toggle=\"modal\" data-target=\"#actorEditModal\" data-id=\"\" id=\"").concat(data.actor_id, "\"></i>\n                            </td>\n                            <td><i class=\"fas fa-trash-alt actorDeleteIcon\" id=\"").concat(element.actor_id, "\"></i></td>\n                        </tr>\n                    "));
+        birthday: {
+          required: true,
+          minlength: 10,
+          maxlength: 10
         },
-        error: function error(_error) {
-          console.log('error');
+        notes: {
+          required: true,
+          minlength: 10
         }
-      });
+      },
+      messages: {
+        name: {
+          required: 'required'
+        },
+        birthday: {
+          required: 'required'
+        },
+        notes: {
+          required: 'required'
+        }
+      },
+      errorPlacement: function errorPlacement(error, element) {
+        error.insertAfter(element);
+      },
+      submitHandler: function submitHandler(form, e) {
+        e.preventDefault();
+        var data = $("#actorCreateForm").serialize();
+        $.ajax({
+          type: "post",
+          url: "/api/Actor",
+          data: data,
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          dataType: "json",
+          success: function success(data) {
+            console.log(data);
+            $('#actorCreateModal').modal('hide'); //clearing of input fields
+
+            $('#actorCreateForm :input').each(function () {
+              var input = $(this);
+              input.val('');
+            });
+            $('#actorBody').append("\n                            <tr>\n                                <td>".concat(data.actor_id, "</td>\n                                <td>").concat(data.name, "</td>\n                                <td>").concat(data.birthday, "</td>\n                                <td>").concat(data.notes, "</td>\n                                <td>\n                                    <i class=\"fas fa-edit actorEditIcon\" data-toggle=\"modal\" data-target=\"#actorEditModal\" data-id=\"\" id=\"").concat(data.actor_id, "\"></i>\n                                </td>\n                                <td><i class=\"fas fa-trash-alt actorDeleteIcon\" id=\"").concat(data.actor_id, "\"></i></td>\n                            </tr>\n                        "));
+          },
+          error: function error(_error) {
+            console.log('error');
+          }
+        });
+      }
     }); //ACTOR EDIT
 
     $('.actorEditIcon').on('click', function (e) {
@@ -94,29 +125,60 @@ var actor = {
       });
     }); //ACTOR UPDATE
 
-    $("#actorEditSave").on('click', function (e) {
-      e.preventDefault();
-      var id = $("#actor_id").val();
-      var data = $("#actorEditForm").serialize();
-      console.log(id);
-      console.log(data);
-      $.ajax({
-        type: "PUT",
-        url: "/api/Actor/" + id,
-        data: data,
-        headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    $('#actorEditForm').validate({
+      rules: {
+        name: {
+          required: true,
+          minlength: 5
         },
-        dataType: "json",
-        success: function success(data) {
-          console.log(data);
-          $('#actorEditModal').modal('hide');
-          (0,_link__WEBPACK_IMPORTED_MODULE_1__.default)('actor');
+        birthday: {
+          required: true,
+          minlength: 10,
+          maxlength: 10
         },
-        error: function error(_error2) {
-          console.log('error');
+        notes: {
+          required: true,
+          minlength: 10
         }
-      });
+      },
+      messages: {
+        name: {
+          required: 'required'
+        },
+        birthday: {
+          required: 'required'
+        },
+        notes: {
+          required: 'required'
+        }
+      },
+      errorPlacement: function errorPlacement(error, element) {
+        error.insertAfter(element);
+      },
+      submitHandler: function submitHandler(form, e) {
+        e.preventDefault();
+        var id = $("#actor_id").val();
+        var data = $("#actorEditForm").serialize();
+        console.log(id);
+        console.log(data);
+        $.ajax({
+          type: "PUT",
+          url: "/api/Actor/" + id,
+          data: data,
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          dataType: "json",
+          success: function success(data) {
+            console.log(data);
+            $('#actorEditModal').modal('hide');
+            (0,_link__WEBPACK_IMPORTED_MODULE_1__.default)('actor');
+          },
+          error: function error(_error2) {
+            console.log('error');
+          }
+        });
+      }
     }); //ACTOR DELETE
 
     $('.actorDeleteIcon').on('click', function (e) {
@@ -189,32 +251,48 @@ var genre = {
     });
     $('#content').append(_genreModals__WEBPACK_IMPORTED_MODULE_0__.default); //GENRE CREATE
 
-    $("#genreCreateSave").on('click', function (e) {
-      e.preventDefault();
-      var data = $("#genreCreateForm").serialize();
-      console.log(data);
-      $.ajax({
-        type: "post",
-        url: "/api/Genre",
-        data: data,
-        headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        dataType: "json",
-        success: function success(data) {
-          console.log(data);
-          $('#genreCreateModal').modal('hide'); //clearing of input fields
-
-          $('#genreCreateForm :input').each(function () {
-            var input = $(this);
-            input.val('');
-          });
-          $('#genreBody').append("\n                        <tr>\n                            <td>".concat(data.genre_id, "</td>\n                            <td>").concat(data.genre, "</td>\n                            <td>\n                                <i class=\"fas fa-edit genreEditIcon\" data-bs-toggle=\"modal\" data-bs-target=\"#genreEditModal\" data-bs-id=\"\" id=\"").concat(data.genre_id, "\"></i>\n                            </td>\n                            <td><i class=\"fas fa-trash-alt genreDeleteIcon\" id=\"").concat(element.genre_id, "\"></i></td>\n                        </tr>\n                    "));
-        },
-        error: function error(_error) {
-          console.log('error');
+    $('#genreCreateForm').validate({
+      rules: {
+        genre: {
+          required: true,
+          minlength: 5
         }
-      });
+      },
+      messages: {
+        genre: {
+          required: 'required'
+        }
+      },
+      errorPlacement: function errorPlacement(error, element) {
+        error.insertAfter(element);
+      },
+      submitHandler: function submitHandler(form, e) {
+        e.preventDefault();
+        var data = $("#genreCreateForm").serialize();
+        console.log(data);
+        $.ajax({
+          type: "post",
+          url: "/api/Genre",
+          data: data,
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          dataType: "json",
+          success: function success(data) {
+            console.log(data);
+            $('#genreCreateModal').modal('hide'); //clearing of input fields
+
+            $('#genreCreateForm :input').each(function () {
+              var input = $(this);
+              input.val('');
+            });
+            $('#genreBody').append("\n                            <tr>\n                                <td>".concat(data.genre_id, "</td>\n                                <td>").concat(data.genre, "</td>\n                                <td>\n                                    <i class=\"fas fa-edit genreEditIcon\" data-bs-toggle=\"modal\" data-bs-target=\"#genreEditModal\" data-bs-id=\"\" id=\"").concat(data.genre_id, "\"></i>\n                                </td>\n                                <td><i class=\"fas fa-trash-alt genreDeleteIcon\" id=\"").concat(element.genre_id, "\"></i></td>\n                            </tr>\n                        "));
+          },
+          error: function error(_error) {
+            console.log('error');
+          }
+        });
+      }
     }); //GENRE EDIT
 
     $('.genreEditIcon').on('click', function (e) {
@@ -240,29 +318,45 @@ var genre = {
       });
     }); //GENRE UPDATE
 
-    $("#genreEditSave").on('click', function (e) {
-      e.preventDefault();
-      var id = $("#genre_id").val();
-      var data = $("#genreEditForm").serialize();
-      console.log(id);
-      console.log(data);
-      $.ajax({
-        type: "PUT",
-        url: "/api/Genre/" + id,
-        data: data,
-        headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        dataType: "json",
-        success: function success(data) {
-          console.log(data);
-          $('#genreEditModal').modal('hide');
-          (0,_link__WEBPACK_IMPORTED_MODULE_1__.default)('genre');
-        },
-        error: function error(_error2) {
-          console.log('error');
+    $('#genreEditForm').validate({
+      rules: {
+        genre: {
+          required: true,
+          minlength: 5
         }
-      });
+      },
+      messages: {
+        genre: {
+          required: 'required'
+        }
+      },
+      errorPlacement: function errorPlacement(error, element) {
+        error.insertAfter(element);
+      },
+      submitHandler: function submitHandler(form, e) {
+        e.preventDefault();
+        var id = $("#genre_id").val();
+        var data = $("#genreEditForm").serialize();
+        console.log(id);
+        console.log(data);
+        $.ajax({
+          type: "PUT",
+          url: "/api/Genre/" + id,
+          data: data,
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          dataType: "json",
+          success: function success(data) {
+            console.log(data);
+            $('#genreEditModal').modal('hide');
+            (0,_link__WEBPACK_IMPORTED_MODULE_1__.default)('genre');
+          },
+          error: function error(_error2) {
+            console.log('error');
+          }
+        });
+      }
     }); //GENRE DELETE
 
     $('.genreDeleteIcon').on('click', function (e) {
@@ -479,32 +573,77 @@ var movie = {
       });
     }); //MOVIE CREATE
 
-    $("#movieCreateSave").on('click', function (e) {
-      e.preventDefault();
-      var data = $("#movieCreateForm").serialize();
-      console.log(data);
-      $.ajax({
-        type: "POST",
-        url: "/api/Movie",
-        data: data,
-        headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    $('#movieCreateForm').validate({
+      rules: {
+        title: {
+          required: true,
+          minlength: 5
         },
-        dataType: "json",
-        success: function success(data) {
-          console.log(data);
-          $('#movieCreateModal').modal('hide'); //clearing of input fields
-
-          $('#movieCreateForm :input').each(function () {
-            var input = $(this);
-            input.val('');
-          });
-          $('#movieBody').append("\n                        <tr>\n                            <td>".concat(data.movie_id, "</td>\n                            <td>").concat(data.title, "</td>\n                            <td>").concat(data.year, "</td>\n                            <td>").concat(data.plot, "</td>\n                            <td>").concat(data.genre_id, "</td>\n                            <td>").concat(data.producer_id, "</td>\n                            <td>\n                                <i class=\"fas fa-edit movieEditIcon\" data-bs-toggle=\"modal\" data-bs-target=\"#movieEditModal\" data-id=\"\" id=\"").concat(data.movie_id, "\"></i>\n                            </td>\n                            <td><i class=\"fas fa-trash-alt movieDeleteIcon\" id=\"").concat(element.movie_id, "\"></i></td>\n                        </tr>\n                    "));
+        year: {
+          required: true,
+          minlength: 4,
+          maxlength: 4
         },
-        error: function error(_error3) {
-          console.log('error');
+        plot: {
+          required: true,
+          minlength: 10
+        },
+        genre_id: {
+          required: true
+        },
+        producer_id: {
+          required: true
         }
-      });
+      },
+      messages: {
+        title: {
+          required: 'required'
+        },
+        year: {
+          required: 'required',
+          rangelength: 'required length is 4 digits',
+          range: 'range should be between 1900-2020'
+        },
+        plot: {
+          required: 'required'
+        },
+        genre_id: {
+          required: 'required'
+        },
+        producer_id: {
+          required: 'required'
+        }
+      },
+      errorPlacement: function errorPlacement(error, element) {
+        error.insertAfter(element);
+      },
+      submitHandler: function submitHandler(form, e) {
+        e.preventDefault();
+        var data = $("#movieCreateForm").serialize();
+        console.log(data);
+        $.ajax({
+          type: "POST",
+          url: "/api/Movie",
+          data: data,
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          dataType: "json",
+          success: function success(data) {
+            console.log(data);
+            $('#movieCreateModal').modal('hide'); //clearing of input fields
+
+            $('#movieCreateForm :input').each(function () {
+              var input = $(this);
+              input.val('');
+            });
+            $('#movieBody').append("\n                            <tr>\n                                <td>".concat(data.movie_id, "</td>\n                                <td>").concat(data.title, "</td>\n                                <td>").concat(data.year, "</td>\n                                <td>").concat(data.plot, "</td>\n                                <td>").concat(data.genre_id, "</td>\n                                <td>").concat(data.producer_id, "</td>\n                                <td>\n                                    <i class=\"fas fa-edit movieEditIcon\" data-bs-toggle=\"modal\" data-bs-target=\"#movieEditModal\" data-id=\"\" id=\"").concat(data.movie_id, "\"></i>\n                                </td>\n                                <td><i class=\"fas fa-trash-alt movieDeleteIcon\" id=\"").concat(data.movie_id, "\"></i></td>\n                            </tr>\n                        "));
+          },
+          error: function error(_error3) {
+            console.log('error');
+          }
+        });
+      }
     }); //MOVIE EDIT
 
     $('.movieEditIcon').on('click', function (e) {
@@ -669,32 +808,63 @@ var producer = {
     });
     $('#content').append(_producerModals__WEBPACK_IMPORTED_MODULE_1__.default); //PRODUCER CREATE
 
-    $("#producerCreateSave").on('click', function (e) {
-      e.preventDefault();
-      var data = $("#producerCreateForm").serialize();
-      console.log(data);
-      $.ajax({
-        type: "post",
-        url: "/api/Producer",
-        data: data,
-        headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    $('#producerCreateForm').validate({
+      rules: {
+        name: {
+          required: true,
+          minlength: 5
         },
-        dataType: "json",
-        success: function success(data) {
-          console.log(data);
-          $('#producerCreateModal').modal('hide'); //clearing of input fields
-
-          $('#producerCreateForm :input').each(function () {
-            var input = $(this);
-            input.val('');
-          });
-          $('#producerBody').append("\n                        <tr>\n                            <td>".concat(data.producer_id, "</td>\n                            <td>").concat(data.name, "</td>\n                            <td>").concat(data.birthday, "</td>\n                            <td>").concat(data.notes, "</td>\n                            <td>\n                                <i class=\"fas fa-edit producerEditIcon\" data-bs-toggle=\"modal\" data-bs-target=\"#producerEditModal\" data-bs-id=\"\" id=\"").concat(data.producer_id, "\"></i>\n                            </td>\n                            <td><i class=\"fas fa-trash-alt producerDeleteIcon\" id=\"").concat(element.producer_id, "\"></i></td>\n                        </tr>\n                    "));
+        birthday: {
+          required: true,
+          minlength: 10,
+          maxlength: 10
         },
-        error: function error(_error) {
-          console.log('error');
+        notes: {
+          required: true,
+          minlength: 10
         }
-      });
+      },
+      messages: {
+        name: {
+          required: 'required'
+        },
+        birthday: {
+          required: 'required'
+        },
+        notes: {
+          required: 'required'
+        }
+      },
+      errorPlacement: function errorPlacement(error, element) {
+        error.insertAfter(element);
+      },
+      submitHandler: function submitHandler(form, e) {
+        e.preventDefault();
+        var data = $("#producerCreateForm").serialize();
+        console.log(data);
+        $.ajax({
+          type: "post",
+          url: "/api/Producer",
+          data: data,
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          dataType: "json",
+          success: function success(data) {
+            console.log(data);
+            $('#producerCreateModal').modal('hide'); //clearing of input fields
+
+            $('#producerCreateForm :input').each(function () {
+              var input = $(this);
+              input.val('');
+            });
+            $('#producerBody').append("\n                            <tr>\n                                <td>".concat(data.producer_id, "</td>\n                                <td>").concat(data.name, "</td>\n                                <td>").concat(data.birthday, "</td>\n                                <td>").concat(data.notes, "</td>\n                                <td>\n                                    <i class=\"fas fa-edit producerEditIcon\" data-bs-toggle=\"modal\" data-bs-target=\"#producerEditModal\" data-bs-id=\"\" id=\"").concat(data.producer_id, "\"></i>\n                                </td>\n                                <td><i class=\"fas fa-trash-alt producerDeleteIcon\" id=\"").concat(data.producer_id, "\"></i></td>\n                            </tr>\n                        "));
+          },
+          error: function error(_error) {
+            console.log('error');
+          }
+        });
+      }
     }); //PRODUCER EDIT
 
     $('.producerEditIcon').on('click', function (e) {
@@ -722,29 +892,60 @@ var producer = {
       });
     }); //PRODUCER UPDATE
 
-    $("#producerEditSave").on('click', function (e) {
-      e.preventDefault();
-      var id = $("#producers_id").val();
-      var data = $("#producerEditForm").serialize();
-      console.log(id);
-      console.log(data);
-      $.ajax({
-        type: "PUT",
-        url: "/api/Producer/" + id,
-        data: data,
-        headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    $('#producerEditForm').validate({
+      rules: {
+        name: {
+          required: true,
+          minlength: 5
         },
-        dataType: "json",
-        success: function success(data) {
-          console.log(data);
-          $('#producerEditModal').modal('hide');
-          (0,_link__WEBPACK_IMPORTED_MODULE_0__.default)('producer');
+        birthday: {
+          required: true,
+          minlength: 10,
+          maxlength: 10
         },
-        error: function error(_error2) {
-          console.log('error');
+        notes: {
+          required: true,
+          minlength: 10
         }
-      });
+      },
+      messages: {
+        name: {
+          required: 'required'
+        },
+        birthday: {
+          required: 'required'
+        },
+        notes: {
+          required: 'required'
+        }
+      },
+      errorPlacement: function errorPlacement(error, element) {
+        error.insertAfter(element);
+      },
+      submitHandler: function submitHandler(form, e) {
+        e.preventDefault();
+        var id = $("#producers_id").val();
+        var data = $("#producerEditForm").serialize();
+        console.log(id);
+        console.log(data);
+        $.ajax({
+          type: "PUT",
+          url: "/api/Producer/" + id,
+          data: data,
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          dataType: "json",
+          success: function success(data) {
+            console.log(data);
+            $('#producerEditModal').modal('hide');
+            (0,_link__WEBPACK_IMPORTED_MODULE_0__.default)('producer');
+          },
+          error: function error(_error2) {
+            console.log('error');
+          }
+        });
+      }
     }); //PRODUCER DELETE
 
     $('.producerDeleteIcon').on('click', function (e) {
@@ -817,31 +1018,47 @@ var role = {
     });
     $('#content').append(_roleModals__WEBPACK_IMPORTED_MODULE_0__.default); //ROLE CREATE
 
-    $("#roleCreateSave").on('click', function (e) {
-      e.preventDefault();
-      var data = $("#roleCreateForm").serialize();
-      console.log(data);
-      $.ajax({
-        type: "post",
-        url: "/api/Role",
-        data: data,
-        headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        dataType: "json",
-        success: function success(data) {
-          console.log(data);
-          $('#roleCreateModal').modal('hide');
-          $('#roleCreateForm :input').each(function () {
-            var input = $(this);
-            input.val('');
-          });
-          $('#roleBody').append("\n                        <tr>\n                            <td>".concat(data.role_id, "</td>\n                            <td>").concat(data.roles, "</td>\n                            <td>\n                                <i class=\"fas fa-edit roleEditIcon\" data-bs-toggle=\"modal\" data-bs-target=\"#roleEditModal\" data-bs-id=\"\" id=\"").concat(data.role_id, "\"></i>\n                            </td>\n                            <td><i class=\"fas fa-trash-alt roleDeleteIcon\" id=\"").concat(element.role_id, "\"></i></td>\n                        </tr>\n                    "));
-        },
-        error: function error(_error) {
-          console.log('error');
+    $('#roleCreateForm').validate({
+      rules: {
+        roles: {
+          required: true,
+          minlength: 5
         }
-      });
+      },
+      messages: {
+        roles: {
+          required: 'required'
+        }
+      },
+      errorPlacement: function errorPlacement(error, element) {
+        error.insertAfter(element);
+      },
+      submitHandler: function submitHandler(form, e) {
+        e.preventDefault();
+        var data = $("#roleCreateForm").serialize();
+        console.log(data);
+        $.ajax({
+          type: "post",
+          url: "/api/Role",
+          data: data,
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          dataType: "json",
+          success: function success(data) {
+            console.log(data);
+            $('#roleCreateModal').modal('hide');
+            $('#roleCreateForm :input').each(function () {
+              var input = $(this);
+              input.val('');
+            });
+            $('#roleBody').append("\n                            <tr>\n                                <td>".concat(data.role_id, "</td>\n                                <td>").concat(data.roles, "</td>\n                                <td>\n                                    <i class=\"fas fa-edit roleEditIcon\" data-bs-toggle=\"modal\" data-bs-target=\"#roleEditModal\" data-bs-id=\"\" id=\"").concat(data.role_id, "\"></i>\n                                </td>\n                                <td><i class=\"fas fa-trash-alt roleDeleteIcon\" id=\"").concat(data.role_id, "\"></i></td>\n                            </tr>\n                        "));
+          },
+          error: function error(_error) {
+            console.log('error');
+          }
+        });
+      }
     }); //ROLE EDIT
 
     $('.roleEditIcon').on('click', function (e) {
@@ -867,29 +1084,45 @@ var role = {
       });
     }); //ROLE UPDATE
 
-    $("#roleEditSave").on('click', function (e) {
-      e.preventDefault();
-      var id = $("#role_id").val();
-      var data = $("#roleEditForm").serialize();
-      console.log(id);
-      console.log(data);
-      $.ajax({
-        type: "PUT",
-        url: "/api/Role/" + id,
-        data: data,
-        headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        dataType: "json",
-        success: function success(data) {
-          console.log(data);
-          $('#roleEditModal').modal('hide');
-          (0,_link__WEBPACK_IMPORTED_MODULE_1__.default)('role');
-        },
-        error: function error(_error2) {
-          console.log('error');
+    $('#roleEditForm').validate({
+      rules: {
+        roles: {
+          required: true,
+          minlength: 5
         }
-      });
+      },
+      messages: {
+        roles: {
+          required: 'required'
+        }
+      },
+      errorPlacement: function errorPlacement(error, element) {
+        error.insertAfter(element);
+      },
+      submitHandler: function submitHandler(form, e) {
+        e.preventDefault();
+        var id = $("#role_id").val();
+        var data = $("#roleEditForm").serialize();
+        console.log(id);
+        console.log(data);
+        $.ajax({
+          type: "PUT",
+          url: "/api/Role/" + id,
+          data: data,
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          dataType: "json",
+          success: function success(data) {
+            console.log(data);
+            $('#roleEditModal').modal('hide');
+            (0,_link__WEBPACK_IMPORTED_MODULE_1__.default)('role');
+          },
+          error: function error(_error2) {
+            console.log('error');
+          }
+        });
+      }
     }); //ROLE DELETE
 
     $('.roleDeleteIcon').on('click', function (e) {

@@ -42,42 +42,55 @@ const genre = {
         $('#content').append(genreModal);
 
         //GENRE CREATE
-        $("#genreCreateSave").on('click', function(e) {
-            e.preventDefault();
-            var data = $("#genreCreateForm").serialize();
-            console.log(data);
-            $.ajax({
-                type: "post",
-                url: "/api/Genre",
-                data: data,
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                dataType: "json",
-                success: function(data) {
-                    console.log(data);
-                    $('#genreCreateModal').modal('hide');
+        $('#genreCreateForm').validate({
+            rules: {
+                genre: { required:true, minlength:5 }
+            },
+            messages: {
+                genre: { required:'required'}
+            
+            },
+            errorPlacement: function(error, element){
+                error.insertAfter(element)
+            },
+            submitHandler: function(form,e) {
+                e.preventDefault();
+                var data = $("#genreCreateForm").serialize();
+                console.log(data);
 
-                    //clearing of input fields
-                    $('#genreCreateForm :input').each(function () {
-                        let input = $(this)
-                        input.val('')
-                    });
+                $.ajax({
+                    type: "post",
+                    url: "/api/Genre",
+                    data: data,
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    dataType: "json",
+                    success: function(data) {
+                        console.log(data);
+                        $('#genreCreateModal').modal('hide');
 
-                    $('#genreBody').append(`
-                        <tr>
-                            <td>${data.genre_id}</td>
-                            <td>${data.genre}</td>
-                            <td>
-                                <i class="fas fa-edit genreEditIcon" data-bs-toggle="modal" data-bs-target="#genreEditModal" data-bs-id="" id="${data.genre_id}"></i>
-                            </td>
-                            <td><i class="fas fa-trash-alt genreDeleteIcon" id="${element.genre_id}"></i></td>
-                        </tr>
-                    `)
-                    
-                },
-                error: function(error) {
-                    console.log('error');
-                }
-            });
+                        //clearing of input fields
+                        $('#genreCreateForm :input').each(function () {
+                            let input = $(this)
+                            input.val('')
+                        });
+
+                        $('#genreBody').append(`
+                            <tr>
+                                <td>${data.genre_id}</td>
+                                <td>${data.genre}</td>
+                                <td>
+                                    <i class="fas fa-edit genreEditIcon" data-bs-toggle="modal" data-bs-target="#genreEditModal" data-bs-id="" id="${data.genre_id}"></i>
+                                </td>
+                                <td><i class="fas fa-trash-alt genreDeleteIcon" id="${element.genre_id}"></i></td>
+                            </tr>
+                        `)
+                        
+                    },
+                    error: function(error) {
+                        console.log('error');
+                    }
+                });
+            }
         });
 
         //GENRE EDIT
@@ -106,7 +119,18 @@ const genre = {
         });
 
         //GENRE UPDATE
-        $("#genreEditSave").on('click', function(e) {
+        $('#genreEditForm').validate({
+            rules: {
+                genre: { required:true, minlength:5 }
+            },
+            messages: {
+                genre: { required:'required'}
+            
+            },
+            errorPlacement: function(error, element){
+                error.insertAfter(element)
+            },
+            submitHandler: function(form,e) {
             e.preventDefault();
             var id = $("#genre_id").val();
             var data = $("#genreEditForm").serialize();
@@ -127,7 +151,8 @@ const genre = {
                     console.log('error');
                 }
             });
-        });
+        }
+    });
 
         //GENRE DELETE
         $('.genreDeleteIcon').on('click',function(e) {
