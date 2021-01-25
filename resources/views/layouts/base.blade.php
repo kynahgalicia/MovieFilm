@@ -16,6 +16,10 @@
         font-style: italic;
         font-size: .8rem;
     }
+    .selectable .ui-selecting { background: #696969; }
+    .selectable .ui-selected { background: #696969; color: white; }
+    .selectable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+    .selectable td { margin: 3px; padding: 0.4em; height: 18px; }
 </style>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -37,6 +41,8 @@
                         <li class="nav-item active">
                             <a class="nav-link  link" href="#" data-id="role">Role</a>
                         </li>
+
+                        
                     </ul>
                 </div>
             </div>
@@ -47,10 +53,10 @@
 
     <div id="paginate" class="container mx-auto"></div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
 
-   
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 

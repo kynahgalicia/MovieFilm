@@ -7,8 +7,9 @@ const role = {
             <div class="table-responsive">
                 <br>
                 <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark" data-bs-toggle="modal" data-bs-target="#roleCreateModal"> Add Role </button>
-                <table class="table table-striped table-hover" id="tableContent">
-                    <thead>
+                <br>
+                <table class="table" id="tableContent">
+                    <thead class="table-dark">
                         <tr>
                             <th>Role ID</th>
                             <th>Role</th>
@@ -17,7 +18,7 @@ const role = {
                         </tr>
                     </thead>
 
-                    <tbody id="roleBody">
+                    <tbody class="selectable" id="roleBody">
                         
                     </tbody>
                 </table>
@@ -40,6 +41,7 @@ const role = {
             `)
         });
 
+        $('.selectable').selectable();
         $('#content').append(roleModal);
 
         //ROLE CREATE

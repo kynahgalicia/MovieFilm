@@ -34,12 +34,13 @@ __webpack_require__.r(__webpack_exports__);
 
 var actor = {
   show: function show(response) {
-    var template = "\n        <div class=\"table-responsive\">\n            <br>\n            <button type=\"button\" class=\"btn btn-outline-dark\" data-mdb-ripple-color=\"dark\" data-bs-toggle=\"modal\" id=\"actorCreateButton\" data-bs-target=\"#actorCreateModal\"> Add Actor </button>\n            <table class=\"table table-striped table-hover\" id=\"tableContent\">\n                <thead>\n                    <tr>\n                        <th>Actor ID</th>\n                        <th>Name</th>\n                        <th>Birthday</th>\n                        <th>Notes</th>\n                        <th>Edit</th>\n                        <th>Delete</th>\n                    </tr>\n                </thead>\n                <tbody id=\"actorBody\">\n\n                </tbody>\n            </table>\n        </div>\n    ";
+    var template = "\n        <div class=\"table-responsive\">\n            <br>\n            <button type=\"button\" class=\"btn btn-outline-dark\" data-mdb-ripple-color=\"dark\" data-bs-toggle=\"modal\" id=\"actorCreateButton\" data-bs-target=\"#actorCreateModal\"> Add Actor </button>\n            <br>\n            <table class=\"table\" id=\"tableContent\">\n                <thead class=\"table-dark\">\n                    <tr>\n                        <th>Actor ID</th>\n                        <th>Name</th>\n                        <th>Birthday</th>\n                        <th>Notes</th>\n                        <th>Edit</th>\n                        <th>Delete</th>\n                    </tr>\n                </thead>\n                <tbody class=\"selectable\" id=\"actorBody\">\n\n                </tbody>\n            </table>\n        </div>\n    ";
     $('#content').html(template); //ACTOR VIEW
 
     response.forEach(function (element) {
       $('#actorBody').append("\n                <tr>\n                    <td>".concat(element.actor_id, "</td>\n                    <td>").concat(element.name, "</td>\n                    <td>").concat(element.birthday, "</td>\n                    <td>").concat(element.notes, "</td>\n                    <td>\n                        <i class=\"fas fa-edit actorEditIcon\" data-bs-toggle=\"modal\" data-bs-target=\"#actorEditModal\" data-bs-id=\"\" id=\"").concat(element.actor_id, "\"></i>\n                    </td>\n                    <td><i class=\"fas fa-trash-alt actorDeleteIcon\" id=\"").concat(element.actor_id, "\"></i></td>\n                </tr>\n            "));
     });
+    $('.selectable').selectable();
     $('#content').append(_actorModals__WEBPACK_IMPORTED_MODULE_0__.default); //ACTOR CREATE
 
     $('#actorCreateForm').validate({
@@ -243,12 +244,13 @@ __webpack_require__.r(__webpack_exports__);
 
 var genre = {
   show: function show(response) {
-    var template = "\n        <div class=\"table-responsive\">\n            <br>\n            <button type=\"button\" class=\"btn btn-outline-dark\" data-mdb-ripple-color=\"dark\" data-bs-toggle=\"modal\" data-bs-target=\"#genreCreateModal\"> Add Genre </button>\n            <table class=\"table table-striped table-hover\" id=\"tableContent\">\n                <thead>\n                    <tr>\n                    <th>Genre ID</th>\n                        <th>Genre</th>\n                        <th>Edit</th>\n                        <th>Delete</th>\n                    </tr>\n                </thead>\n                <tbody id=\"genreBody\">\n\n                </tbody>\n            </table>\n        </div>\n        ";
+    var template = "\n        <div class=\"table-responsive\">\n            <br>\n            <button type=\"button\" class=\"btn btn-outline-dark\" data-mdb-ripple-color=\"dark\" data-bs-toggle=\"modal\" data-bs-target=\"#genreCreateModal\"> Add Genre </button>\n            <table class=\"table\" id=\"tableContent\">\n                <thead class=\"table-dark\">\n                    <tr>\n                    <th>Genre ID</th>\n                        <th>Genre</th>\n                        <th>Edit</th>\n                        <th>Delete</th>\n                    </tr>\n                </thead>\n                <tbody class=\"selectable\" id=\"genreBody\">\n\n                </tbody>\n            </table>\n        </div>\n        ";
     $('#content').html(template); //GENRE VIEW
 
     response.forEach(function (element) {
       $('#genreBody').append("\n                <tr>\n                    <td>".concat(element.genre_id, "</td>\n                    <td>").concat(element.genre, "</td>\n                    <td>\n                        <i class=\"fas fa-edit genreEditIcon\" data-bs-toggle=\"modal\" data-bs-target=\"#genreEditModal\" data-bs-id=\"\" id=\"").concat(element.genre_id, "\"></i>\n                    </td>\n                    <td><i class=\"fas fa-trash-alt genreDeleteIcon\" id=\"").concat(element.genre_id, "\"></i></td>\n                </tr>\n            "));
     });
+    $('.selectable').selectable();
     $('#content').append(_genreModals__WEBPACK_IMPORTED_MODULE_0__.default); //GENRE CREATE
 
     $('#genreCreateForm').validate({
@@ -491,9 +493,11 @@ function paginate(last_page, current_page, indexPage) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _link__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./link */ "./resources/js/link.js");
 
-$('.link').on('click', function (e) {
-  var linkPage = e.currentTarget.dataset.id;
-  (0,_link__WEBPACK_IMPORTED_MODULE_0__.default)(linkPage);
+$(document).ready(function () {
+  $('.link').on('click', function (e) {
+    var linkPage = e.currentTarget.dataset.id;
+    (0,_link__WEBPACK_IMPORTED_MODULE_0__.default)(linkPage);
+  });
 });
 
 /***/ }),
@@ -530,12 +534,13 @@ __webpack_require__.r(__webpack_exports__);
 
 var movie = {
   show: function show(response) {
-    var template = "\n            <div class=\"table-responsive\">\n                <br>\n                <button type=\"button\" class=\"btn btn-outline-dark\" data-mdb-ripple-color=\"dark\" data-bs-toggle=\"modal\" id=\"movieCreateButton\" data-bs-target=\"#movieCreateModal\"> Add Movie </button>\n                <table class=\"table table-striped table-hover\" id=\"tableContent\">\n                    <thead>\n                        <tr>\n                            <th>Movie ID</th>\n                            <th>Title</th>\n                            <th>Year</th>\n                            <th>Plot</th>\n                            <th>Genre</th>\n                            <th>Producer</th>\n                            <th>Edit</th>\n                            <th>Delete</th>\n                        </tr>\n                    </thead>\n                    <tbody id=\"movieBody\">\n\n                    </tbody>\n                </table>\n            </div>\n        ";
+    var template = "\n            <div class=\"table-responsive\">\n                <br>\n                <button type=\"button\" class=\"btn btn-outline-dark\" data-mdb-ripple-color=\"dark\" data-bs-toggle=\"modal\" id=\"movieCreateButton\" data-bs-target=\"#movieCreateModal\"> Add Movie </button>\n                <table class=\"table\" id=\"tableContent\">\n                    <thead class=\"table-dark\">\n                        <tr>\n                            <th>Movie ID</th>\n                            <th>Title</th>\n                            <th>Year</th>\n                            <th>Plot</th>\n                            <th>Genre</th>\n                            <th>Producer</th>\n                            <th>Edit</th>\n                            <th>Delete</th>\n                        </tr>\n                    </thead>\n                    <tbody class=\"selectable\" id=\"movieBody\">\n\n                    </tbody>\n                </table>\n            </div>\n        ";
     $('#content').html(template); //MOVIE VIEW
 
     response.forEach(function (element) {
       $('#movieBody').append("\n                <tr>\n                    <td>".concat(element.movie_id, "</td>\n                    <td>").concat(element.title, "</td>\n                    <td>").concat(element.year, "</td>\n                    <td>").concat(element.plot, "</td>\n                    <td>").concat(element.genre_id, "</td>\n                    <td>").concat(element.producer_id, "</td>\n                    <td>\n                        <i class=\"fas fa-edit movieEditIcon\" data-bs-toggle=\"modal\" data-bs-target=\"#movieEditModal\" data-id=\"\" id=\"").concat(element.movie_id, "\"></i>\n                    </td>\n                    <td>\n                        <i class=\"fas fa-trash-alt movieDeleteIcon\" id=\"").concat(element.movie_id, "\"></i></a>\n                    </td>\n                </tr>\n            "));
     });
+    $('.selectable').selectable();
     $('#content').append(_movieModals__WEBPACK_IMPORTED_MODULE_0__.default); // SHOW GENRE PRODUCER ON CREATE DROPDOWN
 
     $('#movieCreateModal').on('shown.bs.modal', function (e) {
@@ -800,12 +805,13 @@ __webpack_require__.r(__webpack_exports__);
 
 var producer = {
   show: function show(response) {
-    var template = "\n        <div class=\"table-responsive\">\n            <br>\n            <button type=\"button\" class=\"btn btn-outline-dark\" data-mdb-ripple-color=\"dark\" data-bs-toggle=\"modal\" data-bs-target=\"#producerCreateModal\"> Add Producer </button>\n            <table class=\"table table-striped table-hover\" id=\"tableContent\">\n                <thead>\n                    <tr>\n                        <th>Producer ID</th>\n                        <th>Name</th>\n                        <th>Birthday</th>\n                        <th>Notes</th>\n                        <th>Edit</th>\n                        <th>Delete</th>\n                    </tr>\n                </thead>\n                <tbody id=\"producerBody\">\n                </tbody>\n            </table>\n        </div>\n        ";
+    var template = "\n        <div class=\"table-responsive\">\n            <br>\n            <button type=\"button\" class=\"btn btn-outline-dark\" data-mdb-ripple-color=\"dark\" data-bs-toggle=\"modal\" data-bs-target=\"#producerCreateModal\"> Add Producer </button>\n            <table class=\"table\" id=\"tableContent\">\n                <thead class=\"table-dark\">\n                    <tr>\n                        <th>Producer ID</th>\n                        <th>Name</th>\n                        <th>Birthday</th>\n                        <th>Notes</th>\n                        <th>Edit</th>\n                        <th>Delete</th>\n                    </tr>\n                </thead>\n                <tbody class=\"selectable\" id=\"producerBody\">\n                </tbody>\n            </table>\n        </div>\n        ";
     $('#content').html(template); //PRODUCER VIEW
 
     response.forEach(function (element) {
       $('#producerBody').append("\n                <tr>\n                    <td>".concat(element.producer_id, "</td>\n                    <td>").concat(element.name, "</td>\n                    <td>").concat(element.birthday, "</td>\n                    <td>").concat(element.notes, "</td>\n                    <td>\n                        <i class=\"fas fa-edit producerEditIcon\" data-bs-toggle=\"modal\" data-bs-target=\"#producerEditModal\" data-bs-id=\"\" id=\"").concat(element.producer_id, "\"></i>\n                    </td>\n                    <td><i class=\"fas fa-trash-alt producerDeleteIcon\" id=\"").concat(element.producer_id, "\"></i></td>\n                </tr>\n            "));
     });
+    $('.selectable').selectable();
     $('#content').append(_producerModals__WEBPACK_IMPORTED_MODULE_1__.default); //PRODUCER CREATE
 
     $('#producerCreateForm').validate({
@@ -1010,12 +1016,13 @@ __webpack_require__.r(__webpack_exports__);
 
 var role = {
   show: function show(response) {
-    var template = "\n            <div class=\"table-responsive\">\n                <br>\n                <button type=\"button\" class=\"btn btn-outline-dark\" data-mdb-ripple-color=\"dark\" data-bs-toggle=\"modal\" data-bs-target=\"#roleCreateModal\"> Add Role </button>\n                <table class=\"table table-striped table-hover\" id=\"tableContent\">\n                    <thead>\n                        <tr>\n                            <th>Role ID</th>\n                            <th>Role</th>\n                            <th>Edit</th>\n                            <th>Delete</th>\n                        </tr>\n                    </thead>\n\n                    <tbody id=\"roleBody\">\n                        \n                    </tbody>\n                </table>\n            </div>\n        ";
+    var template = "\n            <div class=\"table-responsive\">\n                <br>\n                <button type=\"button\" class=\"btn btn-outline-dark\" data-mdb-ripple-color=\"dark\" data-bs-toggle=\"modal\" data-bs-target=\"#roleCreateModal\"> Add Role </button>\n                <br>\n                <table class=\"table\" id=\"tableContent\">\n                    <thead class=\"table-dark\">\n                        <tr>\n                            <th>Role ID</th>\n                            <th>Role</th>\n                            <th>Edit</th>\n                            <th>Delete</th>\n                        </tr>\n                    </thead>\n\n                    <tbody class=\"selectable\" id=\"roleBody\">\n                        \n                    </tbody>\n                </table>\n            </div>\n        ";
     $('#content').html(template); //ROLE VIEW
 
     response.forEach(function (element) {
       $('#roleBody').append("\n                <tr>\n                    <td>".concat(element.role_id, "</td>\n                    <td>").concat(element.roles, "</td>\n                    <td>\n                        <i class=\"fas fa-edit roleEditIcon\" data-bs-toggle=\"modal\" data-bs-target=\"#roleEditModal\" data-bs-id=\"\" id=\"").concat(element.role_id, "\"></i>\n                    </td>\n                    <td><i class=\"fas fa-trash-alt roleDeleteIcon\" id=\"").concat(element.role_id, "\"></i></td>\n                </tr>\n            "));
     });
+    $('.selectable').selectable();
     $('#content').append(_roleModals__WEBPACK_IMPORTED_MODULE_0__.default); //ROLE CREATE
 
     $('#roleCreateForm').validate({

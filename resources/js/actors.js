@@ -7,8 +7,9 @@ const actor = {
         <div class="table-responsive">
             <br>
             <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark" data-bs-toggle="modal" id="actorCreateButton" data-bs-target="#actorCreateModal"> Add Actor </button>
-            <table class="table table-striped table-hover" id="tableContent">
-                <thead>
+            <br>
+            <table class="table" id="tableContent">
+                <thead class="table-dark">
                     <tr>
                         <th>Actor ID</th>
                         <th>Name</th>
@@ -18,13 +19,12 @@ const actor = {
                         <th>Delete</th>
                     </tr>
                 </thead>
-                <tbody id="actorBody">
+                <tbody class="selectable" id="actorBody">
 
                 </tbody>
             </table>
         </div>
     `;
-
         $('#content').html(template);
 
         //ACTOR VIEW
@@ -43,6 +43,7 @@ const actor = {
             `)
         });
 
+        $('.selectable').selectable();
         $('#content').append(actorModal);
 
         //ACTOR CREATE

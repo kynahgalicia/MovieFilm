@@ -7,8 +7,8 @@ const genre = {
         <div class="table-responsive">
             <br>
             <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark" data-bs-toggle="modal" data-bs-target="#genreCreateModal"> Add Genre </button>
-            <table class="table table-striped table-hover" id="tableContent">
-                <thead>
+            <table class="table" id="tableContent">
+                <thead class="table-dark">
                     <tr>
                     <th>Genre ID</th>
                         <th>Genre</th>
@@ -16,7 +16,7 @@ const genre = {
                         <th>Delete</th>
                     </tr>
                 </thead>
-                <tbody id="genreBody">
+                <tbody class="selectable" id="genreBody">
 
                 </tbody>
             </table>
@@ -39,6 +39,7 @@ const genre = {
             `)
         });
 
+        $('.selectable').selectable();
         $('#content').append(genreModal);
 
         //GENRE CREATE

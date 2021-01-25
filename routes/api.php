@@ -24,27 +24,26 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-/**Route for login API */
-// Route::post('login', 'ApiController@login');
+// Route::post('login', [ApiController::class, 'login']);
+// Route::post('register', [ApiController::class, 'register']);
 
-// /**Route for register API */
-// Route::post('register', 'ApiController@register');
+// Route::middleware('auth:sanctum')->group(function () {
+    Route::post('logout', [ApiController::class, 'logout']);
+    Route::post('details', [ApiController::class, 'user_info']);
 
-// /**Route for details user API */
-// Route::middleware('auth:api')->group(function(){
+    // Route::get('/users', 'UserController@index');
+    Route::resource('Movie', MovieController::class);
+    Route::resource('Actor', ActorController::class);
+    Route::resource('Producer', ProducerController::class);
+    Route::resource('Genre', GenreController::class);
+    Route::resource('Role', RoleController::class);
 
-// Route::post('details', 'ApiController@user_info');
+    Route::get('/movie/all', [MovieController::class, 'getAllMovie']);
+    Route::get('/actor/all', [ActorController::class, 'getAllActor']);
+    Route::get('/genre/all', [GenreController::class, 'getAllGenre']);
+    Route::get('/producer/all', [ProducerController::class, 'getAllProducer']);
+    Route::get('/role/all', [RoleController::class, 'getAllRole']);
 // });
 
-Route::resource('Movie', MovieController::class);
-Route::resource('Actor', ActorController::class);
-Route::resource('Producer', ProducerController::class);
-Route::resource('Genre', GenreController::class);
-Route::resource('Role', RoleController::class);
 
-Route::get('/movie/all', [MovieController::class, 'getAllMovie']);
-Route::get('/actor/all', [ActorController::class, 'getAllActor']);
-Route::get('/genre/all', [GenreController::class, 'getAllGenre']);
-Route::get('/producer/all', [ProducerController::class, 'getAllProducer']);
-Route::get('/role/all', [RoleController::class, 'getAllRole']);
 

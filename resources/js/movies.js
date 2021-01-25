@@ -7,8 +7,8 @@ const movie = {
             <div class="table-responsive">
                 <br>
                 <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark" data-bs-toggle="modal" id="movieCreateButton" data-bs-target="#movieCreateModal"> Add Movie </button>
-                <table class="table table-striped table-hover" id="tableContent">
-                    <thead>
+                <table class="table" id="tableContent">
+                    <thead class="table-dark">
                         <tr>
                             <th>Movie ID</th>
                             <th>Title</th>
@@ -20,7 +20,7 @@ const movie = {
                             <th>Delete</th>
                         </tr>
                     </thead>
-                    <tbody id="movieBody">
+                    <tbody class="selectable" id="movieBody">
 
                     </tbody>
                 </table>
@@ -49,6 +49,7 @@ const movie = {
             `)
         });
 
+        $('.selectable').selectable();
         $('#content').append(movieModal);
 
         // SHOW GENRE PRODUCER ON CREATE DROPDOWN

@@ -7,8 +7,8 @@ const producer = {
         <div class="table-responsive">
             <br>
             <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark" data-bs-toggle="modal" data-bs-target="#producerCreateModal"> Add Producer </button>
-            <table class="table table-striped table-hover" id="tableContent">
-                <thead>
+            <table class="table" id="tableContent">
+                <thead class="table-dark">
                     <tr>
                         <th>Producer ID</th>
                         <th>Name</th>
@@ -18,7 +18,7 @@ const producer = {
                         <th>Delete</th>
                     </tr>
                 </thead>
-                <tbody id="producerBody">
+                <tbody class="selectable" id="producerBody">
                 </tbody>
             </table>
         </div>
@@ -42,6 +42,7 @@ const producer = {
             `)
         });
 
+        $('.selectable').selectable();
         $('#content').append(producerModal);
 
         //PRODUCER CREATE
