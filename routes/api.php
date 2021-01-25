@@ -24,14 +24,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// Route::post('login', [ApiController::class, 'login']);
-// Route::post('register', [ApiController::class, 'register']);
-
-// Route::middleware('auth:sanctum')->group(function () {
-    Route::post('logout', [ApiController::class, 'logout']);
-    Route::post('details', [ApiController::class, 'user_info']);
-
-    // Route::get('/users', 'UserController@index');
     Route::resource('Movie', MovieController::class);
     Route::resource('Actor', ActorController::class);
     Route::resource('Producer', ProducerController::class);
@@ -43,7 +35,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     Route::get('/genre/all', [GenreController::class, 'getAllGenre']);
     Route::get('/producer/all', [ProducerController::class, 'getAllProducer']);
     Route::get('/role/all', [RoleController::class, 'getAllRole']);
-// });
 
 
 

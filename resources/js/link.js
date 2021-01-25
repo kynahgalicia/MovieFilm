@@ -51,6 +51,7 @@ function link (link, page='') {
     })
 }
 
+//PAGINATION
 function paginate(last_page, current_page, indexPage){
     $("#paginate").html(`
         <nav>
