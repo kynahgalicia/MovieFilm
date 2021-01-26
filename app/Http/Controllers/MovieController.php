@@ -23,15 +23,6 @@ class MovieController extends Controller
         $movie = Movie::orderBy('movie_id','ASC')->paginate(15);
         return response()->json($movie);
     }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -43,17 +34,6 @@ class MovieController extends Controller
     {
         $movie = Movie::create($request->all());
         return response()->json($movie);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Movie  $movie
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Movie $movie)
-    {
-        //
     }
 
     /**
